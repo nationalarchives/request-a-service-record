@@ -78,7 +78,7 @@ request_form:
       label: Evidence of death (optional)
       messages:
         file_allowed: File type not allowed. Only .jpg, .png, .gif files are accepted.
-        file_size: File size must be less than 20 KB.
+        file_size: File size must be less than 20MB.
     died_in_service:
       label: Do you believe the individual may have died in service?
       messages:

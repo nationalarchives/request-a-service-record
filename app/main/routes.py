@@ -20,7 +20,7 @@ def request_form():
     if form.validate_on_submit():
         session["form_data"] = {}
         for field_name, field in form._fields.items():
-            if field_name != "csrf_token" and field_name != "submit":
+            if field_name not in ["csrf_token", "submit", "evidenceOfDeath"]:
                 session["form_data"][field_name] = field.data
 
         return redirect(url_for("main.submitted"))
