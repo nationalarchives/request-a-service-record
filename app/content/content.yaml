@@ -1,0 +1,115 @@
+app:
+  title: Request a Service Record
+request_form:
+  service_person_details:
+    legend: Service person detail
+    introduction: |
+      Please provide us with information about the individual that you want us to search for. 
+      We will use this information to search our systems for the record.
+  evidence_of_death:
+    heading: Evidence of death
+    introduction: |
+      If you have evidence of the service person's death, please upload it here. 
+      This could be a death certificate or any other official document that confirms their death.
+    paragraph_one: Without providing evidence of death, it's unlikely we can release the record.
+    paragraph_two: |
+      Submit your evidence below. 
+      If you are unable to upload the document, you can send it to us by replying
+      directly to the email you will receive on completion of this form.
+    paragraph_three: Suitable forms of evidence include
+    list_one:
+      item_one:
+        text: copies of death certificates
+        href: https://www.gov.uk/order-copy-birth-death-marriage-certificate
+      item_two: published obituaries (detailing publication source, name of deceased, and date of birth and death)
+      item_three:
+        text: war dead records
+        href: https://www.cwgc.org/find-records/find-war-dead/
+  enter_your_details:
+    legend: Enter your details
+  fields:
+    forenames:
+      label: Forenames (including middle names)
+      messages:
+        required: The service person's first name is required
+    last_name:
+      label: Last name
+      messages:
+        required: The service person's last name is required
+    other_last_names:
+      label: Other last names (optional)
+    dob:
+      label: Date of birth
+      description: Enter the service person's date of birth in the format DD MM YYYY
+      messages:
+        required: The service person's date of birth is required
+        past_date: The service person's date of birth must be in the past
+    place_of_birth:
+      label: Place of birth (optional)
+    date_of_death:
+      label: Date of death (optional)
+      description: Enter the service person's date of death in the format DD MM YYYY
+      messages:
+        past_date: The service person's date of death must be in the past
+    service_number:
+      label: Service number (optional)
+    regiment:
+      label: Regiment (optional)
+    service_branch:
+      label: Service branch
+      options:
+        british_army: British Army
+        royal_air_force: Royal Air Force
+        royal_navy: Royal Navy
+        home_guard: Home Guard
+        british_army_other: "British Army: Other (e.g. Kenya Regiment, Hong Kong Regiment)"
+        unknown: Unknown
+      messages:
+        required: The service person's service branch is required
+    additional_information:
+      label: Additional information (optional)
+      description: |
+        If you have any additional information that might help us to find the service record, please provide it here.
+        This could include details such as the service person's rank, unit, occupation or any other relevant information.
+    mod_reference:
+      label: Reference number from MoD (optional)
+      description: This might start with 'APV' followed by a series of numbers
+    evidence_of_death:
+      label: Evidence of death (optional)
+      messages:
+        file_allowed: File type not allowed. Only .jpg, .png, .gif files are accepted.
+        file_size: File size must be less than 20 KB.
+    died_in_service:
+      label: Do you believe the individual may have died in service?
+      messages:
+        required: Choosing an option for death in service is required
+    case_reference_number:
+      label: Case reference number (optional)
+      description: If you have contacted us before and have a case reference number, please enter it here. This might start with 'CAS' or 'SPR'
+    requester_title:
+      label: Title (optional)
+    requester_first_name:
+      label: First name (optional)
+    requester_last_name:
+      label: Last name
+      messages:
+        required: Your last name is required
+    contact_preferences:
+      label: How would you like to be contacted?
+      messages:
+        required: Choosing how you would like to be contacted is required
+    requester_email:
+      label: Email address
+      messages:
+        required: Your email address is required
+        address_format: Please enter a valid email address
+    requester_address_line_1:
+      label: Address line 1
+      messages:
+        required: First line of your address is required
+    requester_address_line_2:
+      label: Address line 2 (optional)
+    requester_town_city:
+      label: Town or city
+      messages:
+        required: Your town or city is required

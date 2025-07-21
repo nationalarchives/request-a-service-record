@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{%- set pageTitle = 'Submission successful' -%}
+
+{% block content %}
+  <div class="tna-section">
+    <div class="tna-container">
+      <h1 class="tna-heading-xl">Form Submission Successful</h1>
+
+      <table class="tna-table">
+        <caption class="tna-table__caption">
+          Fields submitted by the user
+        </caption>
+        <thead class="tna-table__head">
+        <tr class="tna-table__row">
+          <th class="tna-table__header" scope="col">Field</th>
+          <th class="tna-table__header" scope="col">Provided</th>
+          <th class="tna-table__header" scope="col">Value</th>
+        </tr>
+        </thead>
+        <tbody class="tna-table__body">
+        {% for field_name, field_value in form_data.items() %}
+          <tr class="tna-table__row">
+            <th class="tna-table__cell" scope="row">{{ field_name }}</th>
+            <td class="tna-table__cell">{{ '✅' if field_value else '❌' }}</td>
+            <td class="tna-table__cell">{{ field_value }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

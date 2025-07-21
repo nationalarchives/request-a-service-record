@@ -6,10 +6,11 @@ from app.lib.talisman import talisman
 from app.lib.template_filters import slugify
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
+from tna_frontend_jinja.wtforms.helpers import WTFormsHelpers
 
 
 def create_app(config_class):
-    app = Flask(__name__, static_url_path="/static")
+    app = Flask(__name__, static_url_path="/request-a-service-record/static")
     app.config.from_object(config_class)
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
@@ -90,6 +91,8 @@ def create_app(config_class):
         },
         force_https=app.config["FORCE_HTTPS"],
     )
+
+    WTFormsHelpers(app)
 
     @app.after_request
     def apply_extra_headers(response):

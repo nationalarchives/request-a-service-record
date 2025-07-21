@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{%- set pageTitle = content.app.title -%}
+
+{% block content %}
+  <div class="tna-section">
+    <div class="tna-container">
+      <div
+        class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+
+        {% if form.errors %}
+          {{ tnaErrorSummary(wtforms_errors(form)) }}
+        {% endif %}
+
+        <h1 class="tna-heading-xl">{{ content.app.title }}</h1>
+
+        <form action="{{ url_for('main.request_form') }}" method="post" novalidate>
+
+          <h2 class="tna-heading-l tna-!--margin-top-l">{{ content.request_form.service_person_details.legend }}</h2>
+
+          <p>{{ content.request_form.service_person_details.introduction }}</p>
+          {{ form.csrf_token }}
+          {{ form.forenames(params={'headingLevel':3, 'size':'l'}) }}
+          {{ form.lastname(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.otherLastNames(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.dateOfBirth(params={'headingLevel':3}) }}
+          {{ form.placeOfBirth(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.dateOfDeath(params={'headingLevel':3}) }}
+          {{ form.serviceNumber(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.regiment(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.serviceBranch(params={'headingLevel':3}) }}
+          {{ form.additionalInformation(params={'headingLevel':3}) }}
+          {{ form.modReference(params={'size':'m'}) }}
+
+          <h2 class="tna-heading-l">{{ content.request_form.evidence_of_death.heading }}</h2>
+
+          <p>{{ content.request_form.evidence_of_death.paragraph_one }}</p>
+          <p>{{ content.request_form.evidence_of_death.paragraph_two }}</p>
+          <p>{{ content.request_form.evidence_of_death.paragraph_three }}:</p>
+          <ul class="tna-ul">
+            <li><a href="{{ content.request_form.evidence_of_death.list_one.item_one.href }}"
+                   target="_blank">{{ content.request_form.evidence_of_death.list_one.item_one.text }}</a></li>
+            <li>{{ content.request_form.evidence_of_death.list_one.item_two }}</li>
+            <li><a href="{{ content.request_form.evidence_of_death.list_one.item_three.href }}"
+                   target="_blank">{{ content.request_form.evidence_of_death.list_one.item_three.text }}</a></li>
+          </ul>
+          {{ form.evidenceOfDeath }}
+
+          {{ form.diedInService(params={'headingLevel':3}) }}
+
+          <h2 class="tna-heading-l">{{ content.request_form.enter_your_details.legend }}</h2>
+
+          {{ form.caseReferenceNumber(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterTitle(params={'headingLevel':3, 'size':'s'}) }}
+          {{ form.requesterFirstName(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterLastName(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterContactPreference(params={'headingLevel':3}) }}
+          {{ form.requesterEmail(params={'headingLevel':3}) }}
+          {{ form.requesterAddress1(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterAddress2(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterTownCity(params={'headingLevel':3, 'size':'m'}) }}
+
+          <div class="tna-button-group">
+            {{ form.submit }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
