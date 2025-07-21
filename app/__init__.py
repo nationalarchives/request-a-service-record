@@ -10,7 +10,7 @@ from tna_frontend_jinja.wtforms.helpers import WTFormsHelpers
 
 
 def create_app(config_class):
-    app = Flask(__name__, static_url_path="/static")
+    app = Flask(__name__, static_url_path="/request-a-service-record/static")
     app.config.from_object(config_class)
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
