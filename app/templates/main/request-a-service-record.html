@@ -20,17 +20,17 @@
 
           <p>{{ content.request_form.service_person_details.introduction }}</p>
           {{ form.csrf_token }}
-          {{ form.forenames(params={'headingLevel':3, 'size':'l'}) }}
-          {{ form.lastname(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.otherLastNames(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.dateOfBirth(params={'headingLevel':3}) }}
-          {{ form.placeOfBirth(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.dateOfDeath(params={'headingLevel':3}) }}
-          {{ form.serviceNumber(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.regiment(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.forenames(params={'headingLevel':3, 'size':'l', 'autocomplete':'off'}) }}
+          {{ form.lastname(params={'headingLevel':3, 'size':'m', 'autocomplete':'off'}) }}
+          {{ form.otherLastNames(params={'headingLevel':3, 'size':'m', 'autocomplete':'off'}) }}
+          {{ form.dateOfBirth(params={'headingLevel':3, 'autocomplete':'off'}) }}
+          {{ form.placeOfBirth(params={'headingLevel':3, 'size':'m', 'autocomplete':'off'}) }}
+          {{ form.dateOfDeath(params={'headingLevel':3, 'autocomplete':'off'}) }}
+          {{ form.serviceNumber(params={'headingLevel':3, 'size':'m', 'autocomplete':'off'}) }}
+          {{ form.regiment(params={'headingLevel':3, 'size':'m', 'autocomplete':'off'}) }}
           {{ form.serviceBranch(params={'headingLevel':3}) }}
           {{ form.additionalInformation(params={'headingLevel':3}) }}
-          {{ form.modReference(params={'size':'m'}) }}
+          {{ form.modReference(params={'size':'m', 'autocomplete':'off'}) }}
 
           <h2 class="tna-heading-l">{{ content.request_form.evidence_of_death.heading }}</h2>
 
@@ -51,14 +51,14 @@
           <h2 class="tna-heading-l">{{ content.request_form.enter_your_details.legend }}</h2>
 
           {{ form.caseReferenceNumber(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.requesterTitle(params={'headingLevel':3, 'size':'s'}) }}
-          {{ form.requesterFirstName(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.requesterLastName(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterTitle(params={'headingLevel':3, 'size':'s', 'autocomplete':'honorific-prefix'}) }}
+          {{ form.requesterFirstName(params={'headingLevel':3, 'size':'m', 'autocomplete':'given-name'}) }}
+          {{ form.requesterLastName(params={'headingLevel':3, 'size':'m', 'autocomplete':'family-name'}) }}
           {{ form.requesterContactPreference(params={'headingLevel':3}) }}
-          {{ form.requesterEmail(params={'headingLevel':3}) }}
-          {{ form.requesterAddress1(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.requesterAddress2(params={'headingLevel':3, 'size':'m'}) }}
-          {{ form.requesterTownCity(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requesterEmail(params={'headingLevel':3, 'autocomplete':'email'}) }}
+          {{ form.requesterAddress1(params={'headingLevel':3, 'size':'m', 'autocomplete':'address-line1'}) }}
+          {{ form.requesterAddress2(params={'headingLevel':3, 'size':'m', 'autocomplete':'address-line2'}) }}
+          {{ form.requesterTownCity(params={'headingLevel':3, 'size':'m', 'autocomplete':'address-level1'}) }}
 
           <div class="tna-button-group">
             {{ form.submit }}
