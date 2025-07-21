@@ -3,6 +3,7 @@
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
+{%- from 'components/error-summary/macro.html' import tnaErrorSummary -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
