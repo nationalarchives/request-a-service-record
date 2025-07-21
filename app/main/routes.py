@@ -1,8 +1,8 @@
 from app.lib.cache import cache, cache_key_prefix
-from app.main import bp
-from flask import render_template, redirect, url_for, session
 from app.lib.content import load_content
+from app.main import bp
 from app.main.request_a_service_record import RequestAServiceRecord
+from flask import redirect, render_template, session, url_for
 
 
 @bp.route("/")
@@ -18,20 +18,22 @@ def request_form():
     content = load_content()
 
     if form.validate_on_submit():
-        session['form_data'] = {}
+        session["form_data"] = {}
         for field_name, field in form._fields.items():
-            if field_name != 'csrf_token' and field_name != 'submit':
-                session['form_data'][field_name] = field.data
+            if field_name != "csrf_token" and field_name != "submit":
+                session["form_data"][field_name] = field.data
 
         return redirect(url_for("main.submitted"))
 
-    return render_template("main/request-a-service-record.html", content=content, form=form)
+    return render_template(
+        "main/request-a-service-record.html", content=content, form=form
+    )
 
 
 @bp.route("/request-a-service-record/submitted/")
 def submitted():
     content = load_content()
-    form_data = session.get('form_data', {})
+    form_data = session.get("form_data", {})
     return render_template("main/submitted.html", form_data=form_data, content=content)
 
 
