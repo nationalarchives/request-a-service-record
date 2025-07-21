@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileRequired, FileSize
-from tna_frontend_jinja.wtforms import TnaSubmitWidget, TnaRadiosWidget, TnaTextInputWidget, TnaDateField, TnaTextareaWidget
+from tna_frontend_jinja.wtforms import TnaSubmitWidget, TnaRadiosWidget, TnaTextInputWidget, TnaDateField, TnaTextareaWidget, TnaFileInputWidget
 from tna_frontend_jinja.wtforms import validators as tna_frontend_validators
 from wtforms import SubmitField, RadioField, StringField, SelectField, TextAreaField, FileField, EmailField, Field
 from wtforms.validators import InputRequired, Length, Email
@@ -102,7 +102,8 @@ class RequestAServiceRecord(FlaskForm):
                 message=content['request_form']['fields']['evidence_of_death']['messages']['file_allowed'],
             ),
             FileSize(max_size=20 * 1024, message=content['request_form']['fields']['evidence_of_death']['messages']['file_size']),
-        ]
+        ],
+        widget=TnaFileInputWidget()
     )
 
     diedInService = RadioField(

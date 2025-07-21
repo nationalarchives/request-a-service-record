@@ -47,17 +47,8 @@
               <li><a href="{{ content.request_form.evidence_of_death.list_one.item_three.href }}"
                      target="_blank">{{ content.request_form.evidence_of_death.list_one.item_three.text }}</a></li>
             </ul>
+            {{ form.evidenceOfDeath }}
 
-            <div class="tna-form__group ">
-              <div class="tna-form__group-contents">
-                <h3 class="tna-form__heading tna-form__heading--m">
-                  <label class="tna-form__label" for="evidenceOfDeath">
-                    {{ content.request_form.fields.evidence_of_death.label }}
-                  </label>
-                </h3>
-              </div>
-              {{ form.evidenceOfDeath }}
-            </div>
             {{ form.diedInService(params={'headingLevel':3}) }}
           </fieldset>
           <fieldset class="tna-!--margin-top-l">

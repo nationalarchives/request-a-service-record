@@ -587,14 +587,14 @@ fixture = ["fixtures"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.21.0"
+version = "0.22.0"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "tna_frontend_jinja-0.21.0-py3-none-any.whl", hash = "sha256:4ad5e8e14a53698eb6d4e215c90d2559fd5e9796d5aeddeb117ae0f933b8945b"},
-    {file = "tna_frontend_jinja-0.21.0.tar.gz", hash = "sha256:ac3a972b6c7d695f2433a4ecada67d985399b37c632172462224f7f78efb5a91"},
+    {file = "tna_frontend_jinja-0.22.0-py3-none-any.whl", hash = "sha256:54d23fe9fec6a2327e2bcaed78f833334e1be89e4cca2402e005cef6b656713f"},
+    {file = "tna_frontend_jinja-0.22.0.tar.gz", hash = "sha256:8f46188be52c7b107ac3f9e36c6c8f214d00930756d63e1d14324c3f6483a4c7"},
 ]
 
 [package.dependencies]
@@ -657,4 +657,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "05f75cc95356f1d28abc954d73a724c7368506743185d07d24ab3a02037418f1"
+content-hash = "9b5f04ffb849c71430829c34ee7b91442647cc578f25bf917845c1189a28eca6"
