@@ -1,7 +1,7 @@
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
 from app.main import bp
-from app.main.request_a_service_record import RequestAServiceRecord
+from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
 
 
