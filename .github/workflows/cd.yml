@@ -20,6 +20,15 @@ jobs:
       - name: Run tests
         uses: ./.github/actions/node-tests
 
+  test-playwright:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        uses: ./.github/actions/playwright-tests
+
   test-python:
     runs-on: ubuntu-latest
     permissions:
