@@ -5,7 +5,7 @@ import checkAccessibility from "./lib/check-accessibility.ts";
 
 acceptAllCookies();
 
-test("blogs landing page", async ({ page }) => {
+test("landing page", async ({ page }) => {
   await page.goto("/request-a-service-record/");
   await expect(page.locator("h1")).toHaveText(/Request a Service Record/);
   await validateHtml(page);
