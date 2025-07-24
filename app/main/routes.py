@@ -3,7 +3,7 @@ from app.lib.content import load_content
 from app.main import bp
 from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
-
+from dicttoxml import dicttoxml
 
 @bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
@@ -34,6 +34,11 @@ def request_form():
 def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
+    print(f"Form data: {form_data}")
+    xml_bytes = dicttoxml(form_data, custom_root='Request', attr_type=False)
+    xml_str = xml_bytes.decode()
+    print(f"XML String: {xml_str}")
+    print(xml_bytes)
     return render_template("main/submitted.html", form_data=form_data, content=content)
 
 
