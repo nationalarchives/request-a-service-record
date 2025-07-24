@@ -82,7 +82,8 @@ class RequestAServiceRecord(FlaskForm):
             tna_frontend_validators.PastDate(
                 message=content["request_form"]["fields"]["date_of_death"]["messages"][
                     "past_date"
-                ]
+                ],
+                include_today=True
             ),
         ],
     )
