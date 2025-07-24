@@ -125,7 +125,7 @@ def create_app(config_class):
     from .healthcheck import bp as healthcheck_bp
     from .main import bp as site_bp
 
-    app.register_blueprint(site_bp)
+    app.register_blueprint(site_bp, url_prefix="/request-a-service-record")
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
 
     return app
