@@ -12,7 +12,7 @@ def index():
     return render_template("main/index.html", content=content)
 
 
-@bp.route("/request-a-service-record/", methods=["GET", "POST"])
+@bp.route("/all-fields-form", methods=["GET", "POST"])
 def request_form():
     form = RequestAServiceRecord()
     content = load_content()
@@ -30,7 +30,7 @@ def request_form():
     )
 
 
-@bp.route("/request-a-service-record/submitted/")
+@bp.route("/submitted/")
 def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
