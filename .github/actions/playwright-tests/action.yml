@@ -25,6 +25,10 @@ runs:
     - run: npx playwright install-deps
       if: steps.playwright-cache.outputs.cache-hit != 'true'
       shell: bash
+    - name: Install system dependencies for WebKit
+      # Some WebKit dependencies seem to lay outside the cache and will need to be installed separately
+      if: ${{ steps.playwright-cache.outputs.cache-hit == 'true' }}
+      run: npx playwright install-deps webkit
     - name: Start service
       run: docker compose up --detach --wait app
       shell: bash
