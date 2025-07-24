@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
-// import acceptAllCookies from "./lib/accept-all-cookies.ts";
+import acceptAllCookies from "./lib/accept-all-cookies.ts";
 import validateHtml from "./lib/validate-html.ts";
 import checkAccessibility from "./lib/check-accessibility.ts";
 
-// acceptAllCookies();
+acceptAllCookies();
 
 test("landing page", async ({ page }) => {
   await page.goto("/request-a-service-record/");
