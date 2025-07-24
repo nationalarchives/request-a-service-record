@@ -4,7 +4,7 @@ export const cookiePreferencesSetKey = "dontShowCookieNotice";
 
 export default defineConfig({
   testDir: "./test/playwright",
-  fullyParallel: true,
+  fullyParallel: !!process.env.CI,
   forbidOnly: !!process.env.CI,
   retries: 2,
   workers: process.env.CI ? 1 : undefined,
