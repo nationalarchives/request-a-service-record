@@ -22,7 +22,6 @@ from wtforms.validators import Email, InputRequired
 
 
 class RequestAServiceRecord(FlaskForm):
-
     content = load_content()
 
     forenames = StringField(
@@ -49,13 +48,13 @@ class RequestAServiceRecord(FlaskForm):
         ],
     )
 
-    otherLastNames = StringField(
+    other_last_names = StringField(
         content["request_form"]["fields"]["other_last_names"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
     )
 
-    dateOfBirth = TnaDateField(
+    date_of_birth = TnaDateField(
         content["request_form"]["fields"]["dob"]["label"],
         description=content["request_form"]["fields"]["dob"]["description"],
         validators=[
@@ -70,13 +69,13 @@ class RequestAServiceRecord(FlaskForm):
         ],
     )
 
-    placeOfBirth = StringField(
+    place_of_birth = StringField(
         content["request_form"]["fields"]["place_of_birth"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
     )
 
-    dateOfDeath = TnaDateField(
+    date_of_death = TnaDateField(
         content["request_form"]["fields"]["date_of_death"]["label"],
         description=content["request_form"]["fields"]["date_of_death"]["description"],
         validators=[
@@ -88,7 +87,7 @@ class RequestAServiceRecord(FlaskForm):
         ],
     )
 
-    serviceNumber = StringField(
+    service_number = StringField(
         content["request_form"]["fields"]["service_number"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
@@ -100,7 +99,7 @@ class RequestAServiceRecord(FlaskForm):
         validators=[],
     )
 
-    serviceBranch = RadioField(
+    service_branch = RadioField(
         content["request_form"]["fields"]["service_branch"]["label"],
         choices=[
             (key, value)
@@ -118,14 +117,14 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaRadiosWidget(),
     )
 
-    modReference = StringField(
+    mod_reference = StringField(
         content["request_form"]["fields"]["mod_reference"]["label"],
         description=content["request_form"]["fields"]["mod_reference"]["description"],
         widget=TnaTextInputWidget(),
         validators=[],
     )
 
-    additionalInformation = TextAreaField(
+    additional_information = TextAreaField(
         content["request_form"]["fields"]["additional_information"]["label"],
         description=content["request_form"]["fields"]["additional_information"][
             "description"
@@ -134,7 +133,7 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaTextareaWidget(),
     )
 
-    evidenceOfDeath = FileField(
+    evidence_of_death = FileField(
         content["request_form"]["fields"]["evidence_of_death"]["label"],
         validators=[
             FileAllowed(
@@ -153,7 +152,7 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaDroppableFileInputWidget(),
     )
 
-    diedInService = RadioField(
+    died_in_service = RadioField(
         content["request_form"]["fields"]["died_in_service"]["label"],
         choices=[("yes", "Yes"), ("no", "No"), ("unknown", "Unknown")],
         validators=[
@@ -166,7 +165,7 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaRadiosWidget(),
     )
 
-    caseReferenceNumber = StringField(
+    case_reference_number = StringField(
         content["request_form"]["fields"]["case_reference_number"]["label"],
         description=content["request_form"]["fields"]["case_reference_number"][
             "description"
@@ -175,19 +174,19 @@ class RequestAServiceRecord(FlaskForm):
         validators=[],
     )
 
-    requesterTitle = StringField(
+    requester_title = StringField(
         content["request_form"]["fields"]["requester_title"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
     )
 
-    requesterFirstName = StringField(
+    requester_first_name = StringField(
         content["request_form"]["fields"]["requester_first_name"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
     )
 
-    requesterLastName = StringField(
+    requester_last_name = StringField(
         content["request_form"]["fields"]["requester_last_name"]["label"],
         widget=TnaTextInputWidget(),
         validators=[
@@ -199,7 +198,7 @@ class RequestAServiceRecord(FlaskForm):
         ],
     )
 
-    requesterContactPreference = RadioField(
+    requester_contact_preference = RadioField(
         content["request_form"]["fields"]["contact_preferences"]["label"],
         choices=[("email", "Email"), ("post", "Post")],
         validators=[
@@ -212,7 +211,7 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaRadiosWidget(),
     )
 
-    requesterEmail = EmailField(
+    requester_email = EmailField(
         content["request_form"]["fields"]["requester_email"]["label"],
         validators=[
             InputRequired(
@@ -229,7 +228,7 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaTextInputWidget(),
     )
 
-    requesterAddress1 = StringField(
+    requester_address1 = StringField(
         content["request_form"]["fields"]["requester_address_line_1"]["label"],
         widget=TnaTextInputWidget(),
         validators=[
@@ -241,13 +240,13 @@ class RequestAServiceRecord(FlaskForm):
         ],
     )
 
-    requesterAddress2 = StringField(
+    requester_address2 = StringField(
         content["request_form"]["fields"]["requester_address_line_2"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
     )
 
-    requesterTownCity = StringField(
+    requester_town_city = StringField(
         content["request_form"]["fields"]["requester_town_city"]["label"],
         widget=TnaTextInputWidget(),
         validators=[
@@ -259,7 +258,7 @@ class RequestAServiceRecord(FlaskForm):
         ],
     )
 
-    requesterCounty = StringField(
+    requester_county = StringField(
         "County (optional)",
         widget=TnaTextInputWidget(),
         validators=[],
