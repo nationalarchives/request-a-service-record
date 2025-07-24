@@ -35,9 +35,3 @@ def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
     return render_template("main/submitted.html", form_data=form_data, content=content)
-
-
-@bp.route("/cookies/")
-@cache.cached(key_prefix=cache_key_prefix)
-def cookies():
-    return render_template("main/cookies.html")
