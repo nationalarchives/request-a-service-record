@@ -56,6 +56,11 @@ class Base(object):
 
     GA4_ID = os.environ.get("GA4_ID", "")
 
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    AWS_DEFAULT_REGION = os.environ.get("AWS_DEFAULT_REGION", "eu-north-1")
+    SQS_QUEUE_URL = os.environ.get("SQS_QUEUE_URL", "")
+
 
 class Production(Base, Features):
     pass
