@@ -5,6 +5,7 @@ from tna_frontend_jinja.wtforms import (
     TnaDateField,
     TnaDroppableFileInputWidget,
     TnaRadiosWidget,
+    TnaSelectWidget,
     TnaSubmitWidget,
     TnaTextareaWidget,
     TnaTextInputWidget,
@@ -14,6 +15,7 @@ from wtforms import (
     EmailField,
     FileField,
     RadioField,
+    SelectField,
     StringField,
     SubmitField,
     TextAreaField,
@@ -260,9 +262,33 @@ class RequestAServiceRecord(FlaskForm):
     )
 
     requester_county = StringField(
-        "County (optional)",
+        content["request_form"]["fields"]["requester_county"]["label"],
         widget=TnaTextInputWidget(),
         validators=[],
+    )
+
+    requester_postcode = StringField(
+        content["request_form"]["fields"]["requester_postcode"]["label"],
+        widget=TnaTextInputWidget(),
+        validators=[],
+    )
+
+    requester_country = SelectField(
+        content["request_form"]["fields"]["requester_country"]["label"],
+        choices=[
+            (item, item)
+            for item in content["request_form"]["fields"]["requester_country"][
+                "countries"
+            ]
+        ],
+        widget=TnaSelectWidget(),
+        validators=[
+            InputRequired(
+                message=content["request_form"]["fields"]["requester_country"][
+                    "messages"
+                ]["required"]
+            )
+        ],
     )
 
     submit = SubmitField("Continue", widget=TnaSubmitWidget())
