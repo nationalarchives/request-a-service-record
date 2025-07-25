@@ -56,6 +56,9 @@ class Base(object):
 
     GA4_ID = os.environ.get("GA4_ID", "")
 
+    GOV_UK_PAY_API_KEY = os.environ.get("GOV_UK_PAY_API_KEY", "")
+    GOV_UK_PAY_API_URL = os.environ.get("GOV_UK_PAY_API_URL", "")
+
 
 class Production(Base, Features):
     pass
