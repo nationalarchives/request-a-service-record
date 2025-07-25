@@ -85,7 +85,7 @@ class RequestAServiceRecord(FlaskForm):
                 message=content["request_form"]["fields"]["date_of_death"]["messages"][
                     "past_date"
                 ],
-                include_today=True
+                include_today=True,
             ),
         ],
     )
