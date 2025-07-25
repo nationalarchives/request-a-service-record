@@ -3,6 +3,11 @@ from app.lib.content import load_content
 from app.main import bp
 from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
+import boto3
+from dicttoxml import dicttoxml
+from config import Base
+
+sqs = boto3.client('sqs', region_name=Base.AWS_DEFAULT_REGION)
 
 
 @bp.route("/")
@@ -34,6 +39,15 @@ def request_form():
 def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
+    xml_bytes = dicttoxml(form_data, custom_root='Request', attr_type=False)
+    xml_str = xml_bytes.decode()
+    queue_url = Base.SQS_QUEUE_URL
+
+    message = sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=xml_str
+    )
+    print(message)
     return render_template("main/submitted.html", form_data=form_data, content=content)
 
 
