@@ -63,4 +63,5 @@ def request_form():
 def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
-    return render_template("main/submitted.html", form_data=form_data, content=content)
+    payment_id = session.get("payment_id", "")
+    return render_template("main/submitted.html", form_data=form_data, content=content, payment_id=payment_id)
