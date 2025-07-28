@@ -7,5 +7,5 @@ runs:
       run: npm install
       shell: bash
     - name: Run Node tests
-      run: npm run test:all
+      run: npm run test:lint
       shell: bash

@@ -14,7 +14,7 @@ def index():
     return render_template("main/index.html", content=content)
 
 
-@bp.route("/all-fields-form", methods=["GET", "POST"])
+@bp.route("/all-fields-form/", methods=["GET", "POST"])
 def request_form():
     form = RequestAServiceRecord()
     content = load_content()
