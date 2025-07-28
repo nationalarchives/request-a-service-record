@@ -7,6 +7,13 @@ from config import Base
 from flask import redirect, render_template, session, url_for
 from app.lib.gov_uk_pay import create_payment
 
+import boto3
+from dicttoxml import dicttoxml
+from config import Base
+
+sqs = boto3.client('sqs', region_name=Base.AWS_DEFAULT_REGION)
+
+
 @bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
 def index():
@@ -55,5 +62,15 @@ def request_form():
 def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
+    
+    xml_bytes = dicttoxml(form_data, custom_root='Request', attr_type=False)
+    xml_str = xml_bytes.decode()
+    queue_url = Base.SQS_QUEUE_URL
+
+    message = sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=xml_str
+    )
+    print(message)
     payment_id = session.get("payment_id", "")
     return render_template("main/submitted.html", form_data=form_data, content=content, payment_id=payment_id)

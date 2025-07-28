@@ -58,6 +58,11 @@ class Base(object):
 
     GOV_UK_PAY_API_KEY = os.environ.get("GOV_UK_PAY_API_KEY", "")
     GOV_UK_PAY_API_URL = os.environ.get("GOV_UK_PAY_API_URL", "")
+    
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    AWS_DEFAULT_REGION = os.environ.get("AWS_DEFAULT_REGION", "eu-north-1")
+    SQS_QUEUE_URL = os.environ.get("SQS_QUEUE_URL", "")
 
 
 class Production(Base, Features):
