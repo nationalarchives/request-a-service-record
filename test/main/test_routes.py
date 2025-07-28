@@ -21,13 +21,8 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.location, f"{self.domain}/healthcheck/live/")
 
     def test_homepage(self):
-        rv = self.app.get("/")
+        rv = self.app.get("/request-a-service-record/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(
             '<h1 class="tna-heading-xl">Request a Service Record</h1>', rv.text
         )
-
-    def test_cookies(self):
-        rv = self.app.get("/cookies/")
-        self.assertEqual(rv.status_code, 200)
-        self.assertIn('<h1 class="tna-heading-xl">Cookies</h1>', rv.text)
