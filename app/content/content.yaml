@@ -119,6 +119,7 @@ request_form:
       label: Postcode or Zip code (optional)
     requester_country:
       label: Country
+      prompt_to_select: Select a country
       countries:
         - United Kingdom
         - Afghanistan
