@@ -62,7 +62,30 @@ def request_form():
 def submitted():
     content = load_content()
     form_data = session.get("form_data", {})
+    payment_id = session.get("payment_id", "")
     
+    headers = {
+        "Authorization": f"Bearer {Base.GOV_UK_PAY_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    response = requests.get(Base.GOV_UK_PAY_API_URL+f"/{payment_id}", headers=headers)
+    response = response.json()
+    print(response)
+
+    if response.get("state").get("status") == "success":
+        has_paid = True
+    else:
+        has_paid = False
+
+    if not has_paid:
+        return "Payment not completed. Please try again." # TODO: Do something better here. User hasn't paid. AC mentioned AMEX takes longer to process - maybe this isn't the best place to check payment status?
+    
+    # Just putting these in the form_data dict for now, so I can easily pass them to the SQS queue with the rest of the data
+    form_data["payment_id"] = payment_id
+    form_data["has_paid"] = has_paid
+    form_data["payment_status"] = response.get("state").get("status", "")
+
     xml_bytes = dicttoxml(form_data, custom_root='Request', attr_type=False)
     xml_str = xml_bytes.decode()
     queue_url = Base.SQS_QUEUE_URL
@@ -72,5 +95,5 @@ def submitted():
         MessageBody=xml_str
     )
     print(message)
-    payment_id = session.get("payment_id", "")
+
     return render_template("main/submitted.html", form_data=form_data, content=content, payment_id=payment_id)
