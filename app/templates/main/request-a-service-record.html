@@ -59,6 +59,9 @@
           {{ form.requester_address1(params={'headingLevel':3, 'size':'m', 'autocomplete':'address-line1'}) }}
           {{ form.requester_address2(params={'headingLevel':3, 'size':'m', 'autocomplete':'address-line2'}) }}
           {{ form.requester_town_city(params={'headingLevel':3, 'size':'m', 'autocomplete':'address-level1'}) }}
+          {{ form.requester_county(params={'headingLevel':3, 'size':'m'}) }}
+          {{ form.requester_postcode(params={'headingLevel':3, 'size':'m', 'autocomplete':'postal-code'}) }}
+          {{ form.requester_country(params={'headingLevel':3, 'size':'m', 'autocomplete':'country'}) }}
 
           <div class="tna-button-group">
             {{ form.submit }}
