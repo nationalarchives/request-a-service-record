@@ -82,18 +82,18 @@ def submitted():
         return "Payment not completed. Please try again." # TODO: Do something better here. User hasn't paid. AC mentioned AMEX takes longer to process - maybe this isn't the best place to check payment status?
     
     # Just putting these in the form_data dict for now, so I can easily pass them to the SQS queue with the rest of the data
-    form_data["payment_id"] = payment_id
-    form_data["has_paid"] = has_paid
-    form_data["payment_status"] = response.get("state").get("status", "")
+    # form_data["payment_id"] = payment_id
+    # form_data["has_paid"] = has_paid
+    # form_data["payment_status"] = response.get("state").get("status", "")
 
-    xml_bytes = dicttoxml(form_data, custom_root='Request', attr_type=False)
-    xml_str = xml_bytes.decode()
-    queue_url = Base.SQS_QUEUE_URL
+    # xml_bytes = dicttoxml(form_data, custom_root='Request', attr_type=False)
+    # xml_str = xml_bytes.decode()
+    # queue_url = Base.SQS_QUEUE_URL
 
-    message = sqs.send_message(
-        QueueUrl=queue_url,
-        MessageBody=xml_str
-    )
-    print(message)
+    # message = sqs.send_message(
+    #     QueueUrl=queue_url,
+    #     MessageBody=xml_str
+    # )
+    # print(message)
 
     return render_template("main/submitted.html", form_data=form_data, content=content, payment_id=payment_id)
