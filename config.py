@@ -70,6 +70,7 @@ class Develop(Base, Features):
 
 
 class Test(Base, Features):
+    SECRET_KEY = "abc123"
     DEBUG = True
     TESTING = True
     EXPLAIN_TEMPLATE_LOADING = True

@@ -7,11 +7,14 @@ from app.lib.template_filters import slugify
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
 from tna_frontend_jinja.wtforms.helpers import WTFormsHelpers
+from app.lib.requires_session_key import requires_session_key
 
 
 def create_app(config_class):
     app = Flask(__name__, static_url_path="/request-a-service-record/static")
     app.config.from_object(config_class)
+
+    requires_session_key(app)
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
