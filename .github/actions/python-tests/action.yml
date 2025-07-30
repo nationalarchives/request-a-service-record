@@ -9,9 +9,6 @@ runs:
     - name: Start Docker containers
       run: docker compose up --detach --wait --wait-timeout 300 || docker compose logs app
       shell: bash
-    - name: Install dev dependencies
-      run: docker compose exec app poetry install --no-interaction --no-root --with dev
-      shell: bash
     - name: Run tests in the app Docker container
-      run: docker compose exec app poetry run python -m pytest
+      run: docker compose exec dev poetry run python -m pytest
       shell: bash
