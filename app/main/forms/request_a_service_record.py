@@ -1,4 +1,4 @@
-from app.lib.content import load_content, get_field_content, prepare_country_options
+from app.lib.content import get_field_content, load_content, prepare_country_options
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileSize
 from tna_frontend_jinja.wtforms import (
@@ -76,8 +76,10 @@ class RequestAServiceRecord(FlaskForm):
         description=get_field_content(content, "date_of_death", "description"),
         validators=[
             tna_frontend_validators.PastDate(
-                message=get_field_content(content, "date_of_death", "messages")["past_date"],
-                include_today=True
+                message=get_field_content(content, "date_of_death", "messages")[
+                    "past_date"
+                ],
+                include_today=True,
             ),
         ],
     )
@@ -98,11 +100,15 @@ class RequestAServiceRecord(FlaskForm):
         get_field_content(content, "service_branch", "label"),
         choices=[
             (key, value)
-            for key, value in get_field_content(content, "service_branch", "options").items()
+            for key, value in get_field_content(
+                content, "service_branch", "options"
+            ).items()
         ],
         validators=[
             InputRequired(
-                message=get_field_content(content, "service_branch", "messages")["required"]
+                message=get_field_content(content, "service_branch", "messages")[
+                    "required"
+                ]
             )
         ],
         widget=TnaRadiosWidget(),
@@ -127,11 +133,15 @@ class RequestAServiceRecord(FlaskForm):
         validators=[
             FileAllowed(
                 upload_set=["jpg", "png", "gif"],
-                message=get_field_content(content, "evidence_of_death", "messages")["file_allowed"],
+                message=get_field_content(content, "evidence_of_death", "messages")[
+                    "file_allowed"
+                ],
             ),
             FileSize(
                 max_size=20 * 1024 * 1024,
-                message=get_field_content(content, "evidence_of_death", "messages")["file_size"],
+                message=get_field_content(content, "evidence_of_death", "messages")[
+                    "file_size"
+                ],
             ),
         ],
         widget=TnaDroppableFileInputWidget(),
@@ -142,7 +152,9 @@ class RequestAServiceRecord(FlaskForm):
         choices=[("yes", "Yes"), ("no", "No"), ("unknown", "Unknown")],
         validators=[
             InputRequired(
-                message=get_field_content(content, "died_in_service", "messages")["required"]
+                message=get_field_content(content, "died_in_service", "messages")[
+                    "required"
+                ]
             )
         ],
         widget=TnaRadiosWidget(),
@@ -172,7 +184,9 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaTextInputWidget(),
         validators=[
             InputRequired(
-                message=get_field_content(content, "requester_last_name", "messages")["required"]
+                message=get_field_content(content, "requester_last_name", "messages")[
+                    "required"
+                ]
             )
         ],
     )
@@ -182,7 +196,9 @@ class RequestAServiceRecord(FlaskForm):
         choices=[("email", "Email"), ("post", "Post")],
         validators=[
             InputRequired(
-                message=get_field_content(content, "contact_preferences", "messages")["required"]
+                message=get_field_content(content, "contact_preferences", "messages")[
+                    "required"
+                ]
             )
         ],
         widget=TnaRadiosWidget(),
@@ -192,10 +208,14 @@ class RequestAServiceRecord(FlaskForm):
         get_field_content(content, "requester_email", "label"),
         validators=[
             InputRequired(
-                message=get_field_content(content, "requester_email", "messages")["required"]
+                message=get_field_content(content, "requester_email", "messages")[
+                    "required"
+                ]
             ),
             Email(
-                message=get_field_content(content, "requester_email", "messages")["address_format"]
+                message=get_field_content(content, "requester_email", "messages")[
+                    "address_format"
+                ]
             ),
         ],
         widget=TnaTextInputWidget(),
@@ -206,7 +226,9 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaTextInputWidget(),
         validators=[
             InputRequired(
-                message=get_field_content(content, "requester_address_line_1", "messages")["required"]
+                message=get_field_content(
+                    content, "requester_address_line_1", "messages"
+                )["required"]
             )
         ],
     )
@@ -222,7 +244,9 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaTextInputWidget(),
         validators=[
             InputRequired(
-                message=get_field_content(content, "requester_town_city", "messages")["required"]
+                message=get_field_content(content, "requester_town_city", "messages")[
+                    "required"
+                ]
             )
         ],
     )
@@ -245,7 +269,9 @@ class RequestAServiceRecord(FlaskForm):
         widget=TnaSelectWidget(),
         validators=[
             InputRequired(
-                message=get_field_content(content, "requester_country", "messages")["required"]
+                message=get_field_content(content, "requester_country", "messages")[
+                    "required"
+                ]
             )
         ],
     )

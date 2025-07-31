@@ -1,7 +1,5 @@
 import unittest
 
-import requests_mock
-
 from app import create_app
 
 
@@ -23,7 +21,7 @@ class MainBlueprintTestCase(unittest.TestCase):
     def test_requires_session_key_redirects(self):
         rv = self.app.get("/request-a-service-record/all-fields-form/")
         self.assertEqual(rv.status_code, 302)
-        self.assertEqual(rv.location, f"/request-a-service-record/")
+        self.assertEqual(rv.location, "/request-a-service-record/")
 
     def test_requires_session_key_does_not_redirect(self):
         rv = self.app.get("/request-a-service-record/")

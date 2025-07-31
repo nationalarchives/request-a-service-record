@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import patch
+
 from app.lib.content import prepare_country_options
 
 
@@ -14,19 +15,19 @@ class TestPrepareCountryOptions(unittest.TestCase):
                         "label": "Forenames (including middle names)",
                         "messages": {
                             "required": "The service person's first name is required"
-                        }
+                        },
                     },
                     "last_name": {
                         "label": "Last name",
                         "messages": {
                             "required": "The service person's last name is required"
-                        }
+                        },
                     },
                     "requester_country": {
                         "label": "Country",
                         "prompt_to_select": "Please select a country",
-                        "countries": ["United Kingdom", "United States", "Canada"]
-                    }
+                        "countries": ["United Kingdom", "United States", "Canada"],
+                    },
                 }
             }
         }
@@ -37,7 +38,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
             ("", "Please select a country"),
             ("United Kingdom", "United Kingdom"),
             ("United States", "United States"),
-            ("Canada", "Canada")
+            ("Canada", "Canada"),
         ]
         result = prepare_country_options(self.test_content)
         self.assertEqual(result, expected)
@@ -49,12 +50,12 @@ class TestPrepareCountryOptions(unittest.TestCase):
                 "fields": {
                     "requester_country": {
                         "label": "Country",
-                        "countries": ["United Kingdom", "United States", "Canada"]
+                        "countries": ["United Kingdom", "United States", "Canada"],
                     }
                 }
             }
         }
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             result = prepare_country_options(incomplete_content)
             mock_print.assert_called_once()
             self.assertEqual(result, [])
@@ -64,16 +65,12 @@ class TestPrepareCountryOptions(unittest.TestCase):
         content_without_country = {
             "request_form": {
                 "fields": {
-                    "forenames": {
-                        "label": "Forenames (including middle names)"
-                    },
-                    "last_name": {
-                        "label": "Last name"
-                    }
+                    "forenames": {"label": "Forenames (including middle names)"},
+                    "last_name": {"label": "Last name"},
                 }
             }
         }
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             result = prepare_country_options(content_without_country)
             # Check that print was called at least once with an error message
             self.assertGreaterEqual(mock_print.call_count, 1)
@@ -86,12 +83,12 @@ class TestPrepareCountryOptions(unittest.TestCase):
                 "fields": {
                     "requester_country": {
                         "label": "Country",
-                        "prompt_to_select": "Please select a country"
+                        "prompt_to_select": "Please select a country",
                     }
                 }
             }
         }
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             result = prepare_country_options(incomplete_content)
             mock_print.assert_called_once()
             self.assertEqual(result, [])
@@ -103,12 +100,12 @@ class TestPrepareCountryOptions(unittest.TestCase):
                 "fields": {
                     "requester_country": {
                         "prompt_to_select": ["Not a string"],
-                        "countries": ["United Kingdom", "United States", "Canada"]
+                        "countries": ["United Kingdom", "United States", "Canada"],
                     }
                 }
             }
         }
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             result = prepare_country_options(invalid_content)
             mock_print.assert_called_once()
             self.assertEqual(result, [])
@@ -120,16 +117,16 @@ class TestPrepareCountryOptions(unittest.TestCase):
                 "fields": {
                     "requester_country": {
                         "prompt_to_select": "Please select a country",
-                        "countries": "Not a list"
+                        "countries": "Not a list",
                     }
                 }
             }
         }
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             result = prepare_country_options(invalid_content)
             mock_print.assert_called_once()
             self.assertEqual(result, [])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+
 from app.lib.content import get_field_content
 
 
@@ -14,19 +14,19 @@ class TestGetFieldContent(unittest.TestCase):
                         "label": "Forenames (including middle names)",
                         "messages": {
                             "required": "The service person's first name is required"
-                        }
+                        },
                     },
                     "last_name": {
                         "label": "Last name",
                         "messages": {
                             "required": "The service person's last name is required"
-                        }
+                        },
                     },
                     "requester_country": {
                         "label": "Country",
                         "prompt_to_select": "Select a country",
-                        "countries": ["United Kingdom", "United States", "Canada"]
-                    }
+                        "countries": ["United Kingdom", "United States", "Canada"],
+                    },
                 }
             }
         }
@@ -35,9 +35,7 @@ class TestGetFieldContent(unittest.TestCase):
         """Test retrieving the entire content for a field"""
         expected = {
             "label": "Forenames (including middle names)",
-            "messages": {
-                "required": "The service person's first name is required"
-            }
+            "messages": {"required": "The service person's first name is required"},
         }
         result = get_field_content(self.test_content, "forenames")
         self.assertEqual(result, expected)
@@ -49,7 +47,9 @@ class TestGetFieldContent(unittest.TestCase):
 
     def test_get_nested_content_key(self):
         """Test retrieving a nested content key from a field"""
-        result = get_field_content(self.test_content, "forenames", "messages")["required"]
+        result = get_field_content(self.test_content, "forenames", "messages")[
+            "required"
+        ]
         self.assertEqual(result, "The service person's first name is required")
 
     def test_missing_content_key(self):
@@ -68,5 +68,5 @@ class TestGetFieldContent(unittest.TestCase):
         self.assertEqual(result, ["United Kingdom", "United States", "Canada"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
