@@ -14,8 +14,8 @@ def index():
     return render_template("main/index.html", content=content)
 
 
-@bp.route("/all-fields-form/", methods=["GET", "POST"])
-def request_form():
+@bp.route("/all-fields-in-one-form/", methods=["GET", "POST"])
+def all_fields_in_one_form():
     form = RequestAServiceRecord()
     content = load_content()
 
@@ -28,7 +28,7 @@ def request_form():
         return redirect(url_for("main.submitted"))
 
     return render_template(
-        "main/request-a-service-record.html", content=content, form=form
+        "main/all-fields-in-one-form.html", content=content, form=form
     )
 
 
