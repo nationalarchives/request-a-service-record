@@ -9,7 +9,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
     def setUp(self):
         # Test content with valid country data
         self.test_content = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "forenames": {
                         "label": "Forenames (including middle names)",
@@ -46,7 +46,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
     def test_missing_prompt(self):
         """Test when prompt_to_select is missing"""
         incomplete_content = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "requester_country": {
                         "label": "Country",
@@ -63,7 +63,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
     def test_missing_country_field(self):
         """Test when requester_country field is missing"""
         content_without_country = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "forenames": {"label": "Forenames (including middle names)"},
                     "last_name": {"label": "Last name"},
@@ -79,7 +79,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
     def test_missing_countries(self):
         """Test when countries list is missing"""
         incomplete_content = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "requester_country": {
                         "label": "Country",
@@ -96,7 +96,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
     def test_invalid_prompt_type(self):
         """Test when prompt is not a string"""
         invalid_content = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "requester_country": {
                         "prompt_to_select": ["Not a string"],
@@ -113,7 +113,7 @@ class TestPrepareCountryOptions(unittest.TestCase):
     def test_invalid_countries_type(self):
         """Test when countries is not a list"""
         invalid_content = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "requester_country": {
                         "prompt_to_select": "Please select a country",
