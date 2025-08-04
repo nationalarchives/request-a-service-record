@@ -1,32 +1,34 @@
 app:
   title: Request a Service Record
-request_form:
-  service_person_details:
-    legend: Service person detail
-    introduction: |
-      Please provide us with information about the individual that you want us to search for. 
-      We will use this information to search our systems for the record.
-  evidence_of_death:
-    heading: Evidence of death
-    introduction: |
-      If you have evidence of the service person's death, please upload it here. 
-      This could be a death certificate or any other official document that confirms their death.
-    paragraph_one: Without providing evidence of death, it's unlikely we can release the record.
-    paragraph_two: |
-      Submit your evidence below. 
-      If you are unable to upload the document, you can send it to us by replying
-      directly to the email you will receive on completion of this form.
-    paragraph_three: Suitable forms of evidence include
-    list_one:
-      item_one:
-        text: copies of death certificates
-        href: https://www.gov.uk/order-copy-birth-death-marriage-certificate
-      item_two: published obituaries (detailing publication source, name of deceased, and date of birth and death)
-      item_three:
-        text: war dead records
-        href: https://www.cwgc.org/find-records/find-war-dead/
-  enter_your_details:
-    legend: Enter your details
+pages:
+  all_fields_in_one_form:
+    service_person_details:
+      legend: Service person detail
+      introduction: |
+        Please provide us with information about the individual that you want us to search for. 
+        We will use this information to search our systems for the record.
+    evidence_of_death:
+      heading: Evidence of death
+      introduction: |
+        If you have evidence of the service person's death, please upload it here. 
+        This could be a death certificate or any other official document that confirms their death.
+      paragraph_one: Without providing evidence of death, it's unlikely we can release the record.
+      paragraph_two: |
+        Submit your evidence below. 
+        If you are unable to upload the document, you can send it to us by replying
+        directly to the email you will receive on completion of this form.
+      paragraph_three: Suitable forms of evidence include
+      list_one:
+        item_one:
+          text: copies of death certificates
+          href: https://www.gov.uk/order-copy-birth-death-marriage-certificate
+        item_two: published obituaries (detailing publication source, name of deceased, and date of birth and death)
+        item_three:
+          text: war dead records
+          href: https://www.cwgc.org/find-records/find-war-dead/
+    enter_your_details:
+      legend: Enter your details
+forms:
   fields:
     forenames:
       label: Forenames (including middle names)
@@ -368,3 +370,5 @@ request_form:
         - Zimbabwe
       messages:
         required: Country is required
+    proceed_to_payment:
+      call_to_action: Proceed to make payment using GOV.UK Pay
