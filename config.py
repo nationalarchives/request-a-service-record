@@ -13,11 +13,11 @@ class Base(object):
     TNA_FRONTEND_VERSION: str = ""
     try:
         with open(
-            os.path.join(
-                os.path.realpath(os.path.dirname(__file__)),
-                "node_modules/@nationalarchives/frontend",
-                "package.json",
-            )
+                os.path.join(
+                    os.path.realpath(os.path.dirname(__file__)),
+                    "node_modules/@nationalarchives/frontend",
+                    "package.json",
+                )
         ) as package_json:
             try:
                 data = json.load(package_json)
@@ -55,6 +55,9 @@ class Base(object):
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
 
     GA4_ID = os.environ.get("GA4_ID", "")
+
+    GOV_UK_PAY_API_KEY = os.environ.get("GOV_UK_PAY_API_KEY", "")
+    GOV_UK_PAY_API_URL = os.environ.get("GOV_UK_PAY_API_URL", "")
 
 
 class Production(Base, Features):
