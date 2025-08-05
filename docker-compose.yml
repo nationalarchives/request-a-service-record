@@ -15,6 +15,9 @@ services:
       - COOKIE_DOMAIN=localhost
       - CSP_STYLE_SRC='self',fonts.googleapis.com,p.typekit.net,use.typekit.net
       - CSP_FONT_SRC='self',fonts.gstatic.com,use.typekit.net
+    env_file:
+      - path: .env
+        required: false
     ports:
       - 65517:8080
     volumes:

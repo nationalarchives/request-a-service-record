@@ -15,7 +15,7 @@ def load_content(file_path="app/content/content.yaml"):
 
 def get_field_content(content, field_name, content_key=None):
     try:
-        field_content = content["request_form"]["fields"][field_name]
+        field_content = content["forms"]["fields"][field_name]
 
         if content_key:
             return field_content.get(content_key)

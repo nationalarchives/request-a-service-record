@@ -8,7 +8,7 @@ class TestGetFieldContent(unittest.TestCase):
     def setUp(self):
         # Test content with a structure matching content.yaml
         self.test_content = {
-            "request_form": {
+            "forms": {
                 "fields": {
                     "forenames": {
                         "label": "Forenames (including middle names)",
