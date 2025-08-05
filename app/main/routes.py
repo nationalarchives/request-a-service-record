@@ -1,5 +1,6 @@
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
+from app.lib.gov_uk_pay import create_payment
 from app.main import bp
 from app.main.forms.request_a_service_record import RequestAServiceRecord
 from app.main.forms.proceed_to_pay import ProceedToPay
@@ -48,6 +49,12 @@ def review():
 @bp.route("/send-to-govuk-pay/")
 def send_to_gov_pay():
     return "Send the user to GOV.UK Pay for payment processing."
+
+
+@bp.route("/payment-link-creation_failed/")
+def payment_link_creation_failed():
+    content = load_content()
+    return render_template("main/payment-link-creation-failed.html", content=content)
 
 
 @bp.route("/confirm-payment-received/")

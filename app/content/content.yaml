@@ -40,6 +40,10 @@ pages:
         - Value, if provided
   confirm_payment_received:
     heading: Payment received
+  payment_link_creation_failed:
+    heading: Payment link creation failed
+    paragraphs:
+      - We are unable to create a payment link at this time.
 forms:
   fields:
     forenames:
