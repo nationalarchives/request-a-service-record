@@ -12,12 +12,13 @@ pages:
       introduction: |
         If you have evidence of the service person's death, please upload it here. 
         This could be a death certificate or any other official document that confirms their death.
-      paragraph_one: Without providing evidence of death, it's unlikely we can release the record.
-      paragraph_two: |
-        Submit your evidence below. 
-        If you are unable to upload the document, you can send it to us by replying
-        directly to the email you will receive on completion of this form.
-      paragraph_three: Suitable forms of evidence include
+      paragraphs:
+        - Without providing evidence of death, it's unlikely we can release the record.
+        - |
+          Submit your evidence below. 
+          If you are unable to upload the document, you can send it to us by replying
+          directly to the email you will receive on completion of this form.
+        - Suitable forms of evidence include
       list_one:
         item_one:
           text: copies of death certificates
