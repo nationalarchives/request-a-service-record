@@ -57,6 +57,12 @@ def payment_link_creation_failed():
     return render_template("main/payment-link-creation-failed.html", content=content)
 
 
+@bp.route("/payment-incomplete/")
+def payment_incomplete():
+    content = load_content()
+    return render_template("main/payment-incomplete.html", content=content)
+
+
 @bp.route("/confirm-payment-received/")
 def confirm_payment_received():
     content = load_content()

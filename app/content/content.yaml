@@ -44,6 +44,10 @@ pages:
     heading: Payment link creation failed
     paragraphs:
       - We are unable to create a payment link at this time.
+  payment_incomplete:
+    heading: Payment incomplete
+    paragraphs:
+      - Your payment was not completed successfully.
 forms:
   fields:
     forenames:
