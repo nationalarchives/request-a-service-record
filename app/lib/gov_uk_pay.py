@@ -25,3 +25,17 @@ def create_payment(amount, description, reference, return_url):
         return None
 
     return response.json()
+
+
+def check_payment(payment_id):
+    headers = {
+        "Authorization": f"Bearer {Base.GOV_UK_PAY_API_KEY}",
+        "Content-Type": "application/json",
+    }
+    response = requests.get(Base.GOV_UK_PAY_API_URL + f"/{payment_id}", headers=headers)
+    response = response.json()
+    if response.get("state").get("status") == "success":
+        has_paid = True
+    else:
+        has_paid = False
+    return has_paid

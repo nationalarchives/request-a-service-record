@@ -1,6 +1,6 @@
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
-from app.lib.gov_uk_pay import create_payment
+from app.lib.gov_uk_pay import create_payment, check_payment
 from app.main import bp
 from app.main.forms.request_a_service_record import RequestAServiceRecord
 from app.main.forms.proceed_to_pay import ProceedToPay
@@ -48,7 +48,33 @@ def review():
 
 @bp.route("/send-to-govuk-pay/")
 def send_to_gov_pay():
-    return "Send the user to GOV.UK Pay for payment processing."
+    content = load_content()
+    response = create_payment(
+        amount=1000,
+        description=content["app"]["title"],
+        reference="ServiceRecordRequest",
+        return_url=url_for("main.handle_gov_uk_pay_response", _external=True),
+    )
+
+    if not response:
+        return redirect(url_for("main.payment_link_creation_failed"))
+    else:
+        # TODO: We will need to save the form data and payment ID to a database to protect from session hijacking
+        session["payment_url"] = (
+            response.get("_links", {}).get("next_url", "").get("href", "")
+        )
+        session["payment_id"] = response.get("payment_id", "")
+        return redirect(session["payment_url"])
+
+
+@bp.route("/handle-gov-uk-pay-response/")
+def handle_gov_uk_pay_response():
+    payment_id = session.get("payment_id", "")
+    has_paid = check_payment(payment_id)
+
+    if not has_paid:
+        return redirect(url_for("main.payment_incomplete"))
+    return redirect(url_for("main.confirm_payment_received"))
 
 
 @bp.route("/payment-link-creation_failed/")
