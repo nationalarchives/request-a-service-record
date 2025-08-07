@@ -1,11 +1,10 @@
 import requests
-from config import Base
 from flask import current_app
 
 
 def create_payment(amount, description, reference, return_url):
     headers = {
-        "Authorization": f"Bearer {Base.GOV_UK_PAY_API_KEY}",
+        "Authorization": f"Bearer {current_app.config["GOV_UK_PAY_API_KEY"]}",
         "Content-Type": "application/json",
     }
 
@@ -16,7 +15,9 @@ def create_payment(amount, description, reference, return_url):
         "return_url": return_url,
     }
 
-    response = requests.post(Base.GOV_UK_PAY_API_URL, json=payload, headers=headers)
+    response = requests.post(
+        current_app.config["GOV_UK_PAY_API_URL"], json=payload, headers=headers
+    )
 
     try:
         response.raise_for_status()
@@ -29,10 +30,12 @@ def create_payment(amount, description, reference, return_url):
 
 def check_payment(payment_id):
     headers = {
-        "Authorization": f"Bearer {Base.GOV_UK_PAY_API_KEY}",
+        "Authorization": f"Bearer {current_app.config["GOV_UK_PAY_API_KEY"]}",
         "Content-Type": "application/json",
     }
-    response = requests.get(Base.GOV_UK_PAY_API_URL + f"/{payment_id}", headers=headers)
+    response = requests.get(
+        current_app.config["GOV_UK_PAY_API_URL"] + f"/{payment_id}", headers=headers
+    )
     response = response.json()
     if response.get("state").get("status") == "success":
         has_paid = True
