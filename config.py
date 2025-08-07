@@ -8,7 +8,7 @@ class Features(object):
     pass
 
 
-class Base(object):
+class Production(Features):
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
     TNA_FRONTEND_VERSION: str = ""
     try:
@@ -60,19 +60,15 @@ class Base(object):
     GOV_UK_PAY_API_URL = os.environ.get("GOV_UK_PAY_API_URL", "")
 
 
-class Production(Base, Features):
-    pass
-
-
-class Staging(Base, Features):
+class Staging(Production, Features):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
 
-class Develop(Base, Features):
+class Develop(Production, Features):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
-class Test(Base, Features):
+class Test(Production, Features):
     SECRET_KEY = "abc123"
     DEBUG = True
     TESTING = True
