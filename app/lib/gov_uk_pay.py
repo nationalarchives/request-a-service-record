@@ -1,6 +1,6 @@
+import requests
 from config import Base
 from flask import current_app
-import requests
 
 
 def create_payment(amount, description, reference, return_url):

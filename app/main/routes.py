@@ -1,9 +1,9 @@
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
-from app.lib.gov_uk_pay import create_payment, check_payment
+from app.lib.gov_uk_pay import check_payment, create_payment
 from app.main import bp
-from app.main.forms.request_a_service_record import RequestAServiceRecord
 from app.main.forms.proceed_to_pay import ProceedToPay
+from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
 
 
@@ -43,7 +43,9 @@ def review():
     if form.validate_on_submit():
         return redirect(url_for("main.send_to_gov_pay"))
 
-    return render_template("main/review.html", form=form, form_data=form_data, content=content)
+    return render_template(
+        "main/review.html", form=form, form_data=form_data, content=content
+    )
 
 
 @bp.route("/send-to-govuk-pay/")

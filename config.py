@@ -13,11 +13,11 @@ class Production(Features):
     TNA_FRONTEND_VERSION: str = ""
     try:
         with open(
-                os.path.join(
-                    os.path.realpath(os.path.dirname(__file__)),
-                    "node_modules/@nationalarchives/frontend",
-                    "package.json",
-                )
+            os.path.join(
+                os.path.realpath(os.path.dirname(__file__)),
+                "node_modules/@nationalarchives/frontend",
+                "package.json",
+            )
         ) as package_json:
             try:
                 data = json.load(package_json)
