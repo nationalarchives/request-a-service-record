@@ -14,11 +14,12 @@
 
         <h1 class="tna-heading-xl">{{ content.app.title }}</h1>
 
-        <form action="{{ url_for('main.request_form') }}" method="post" enctype="multipart/form-data" novalidate>
+        <form action="{{ url_for('main.all_fields_in_one_form') }}" method="post" enctype="multipart/form-data" novalidate>
 
-          <h2 class="tna-heading-l tna-!--margin-top-l">{{ content.request_form.service_person_details.legend }}</h2>
+          <h2
+            class="tna-heading-l tna-!--margin-top-l">{{ content.pages.all_fields_in_one_form.service_person_details.legend }}</h2>
 
-          <p>{{ content.request_form.service_person_details.introduction }}</p>
+          <p>{{ content.pages.all_fields_in_one_form.service_person_details.introduction }}</p>
           {{ form.csrf_token }}
           {{ form.forenames(params={'headingLevel':3, 'size':'l', 'autocomplete':'off'}) }}
           {{ form.lastname(params={'headingLevel':3, 'size':'m', 'autocomplete':'off'}) }}
@@ -32,23 +33,26 @@
           {{ form.additional_information(params={'headingLevel':3}) }}
           {{ form.mod_reference(params={'size':'m', 'autocomplete':'off'}) }}
 
-          <h2 class="tna-heading-l">{{ content.request_form.evidence_of_death.heading }}</h2>
+          <h2 class="tna-heading-l">{{ content.pages.all_fields_in_one_form.evidence_of_death.heading }}</h2>
 
-          <p>{{ content.request_form.evidence_of_death.paragraph_one }}</p>
-          <p>{{ content.request_form.evidence_of_death.paragraph_two }}</p>
-          <p>{{ content.request_form.evidence_of_death.paragraph_three }}:</p>
+          {% for paragraph in content.pages.all_fields_in_one_form.evidence_of_death.paragraphs %}
+            <p>{{ paragraph }}</p>
+          {% endfor %}
+
           <ul class="tna-ul">
-            <li><a href="{{ content.request_form.evidence_of_death.list_one.item_one.href }}"
-                   target="_blank">{{ content.request_form.evidence_of_death.list_one.item_one.text }}</a></li>
-            <li>{{ content.request_form.evidence_of_death.list_one.item_two }}</li>
-            <li><a href="{{ content.request_form.evidence_of_death.list_one.item_three.href }}"
-                   target="_blank">{{ content.request_form.evidence_of_death.list_one.item_three.text }}</a></li>
+            <li><a href="{{ content.pages.all_fields_in_one_form.evidence_of_death.list_one.item_one.href }}"
+                   target="_blank">{{ content.pages.all_fields_in_one_form.evidence_of_death.list_one.item_one.text }}</a>
+            </li>
+            <li>{{ content.pages.all_fields_in_one_form.evidence_of_death.list_one.item_two }}</li>
+            <li><a href="{{ content.pages.all_fields_in_one_form.evidence_of_death.list_one.item_three.href }}"
+                   target="_blank">{{ content.pages.all_fields_in_one_form.evidence_of_death.list_one.item_three.text }}</a>
+            </li>
           </ul>
           {{ form.evidence_of_death }}
 
           {{ form.died_in_service(params={'headingLevel':3}) }}
 
-          <h2 class="tna-heading-l">{{ content.request_form.enter_your_details.legend }}</h2>
+          <h2 class="tna-heading-l">{{ content.pages.all_fields_in_one_form.enter_your_details.legend }}</h2>
 
           {{ form.case_reference_number(params={'headingLevel':3, 'size':'m'}) }}
           {{ form.requester_title(params={'headingLevel':3, 'size':'s', 'autocomplete':'honorific-prefix'}) }}
