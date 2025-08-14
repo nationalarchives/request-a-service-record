@@ -1,12 +1,19 @@
+from datetime import datetime
+
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
-from app.lib.gov_uk_pay import check_payment, create_payment, is_webhook_signature_valid, process_webhook_data
+from app.lib.gov_uk_pay import (
+    check_payment,
+    create_payment,
+    is_webhook_signature_valid,
+    process_webhook_data,
+)
+from app.lib.models import ServiceRecordRequest, db
 from app.main import bp
 from app.main.forms.proceed_to_pay import ProceedToPay
 from app.main.forms.request_a_service_record import RequestAServiceRecord
-from flask import current_app, redirect, render_template, session, url_for, request
-from app.lib.models import db, ServiceRecordRequest
-from datetime import datetime
+from flask import current_app, redirect, render_template, request, session, url_for
+
 
 @bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
@@ -66,18 +73,21 @@ def send_to_gov_pay():
     if not response:
         return redirect(url_for("main.payment_link_creation_failed"))
     else:
-        payment_url = (
-            response.get("_links", {}).get("next_url", "").get("href", "")
-        )
+        payment_url = response.get("_links", {}).get("next_url", "").get("href", "")
         payment_id = response.get("payment_id", "")
 
-        form_data["date_of_birth"] = datetime.strptime(form_data["date_of_birth"], "%a, %d %b %Y %H:%M:%S GMT") if form_data.get("date_of_birth") else None
-        form_data["date_of_death"] = datetime.strptime(form_data["date_of_death"], "%a, %d %b %Y %H:%M:%S GMT") if form_data.get("date_of_death") else None
-
-        record = ServiceRecordRequest(
-            **form_data,
-            payment_id=payment_id
+        form_data["date_of_birth"] = (
+            datetime.strptime(form_data["date_of_birth"], "%a, %d %b %Y %H:%M:%S GMT")
+            if form_data.get("date_of_birth")
+            else None
         )
+        form_data["date_of_death"] = (
+            datetime.strptime(form_data["date_of_death"], "%a, %d %b %Y %H:%M:%S GMT")
+            if form_data.get("date_of_death")
+            else None
+        )
+
+        record = ServiceRecordRequest(**form_data, payment_id=payment_id)
         db.session.add(record)
         db.session.commit()
 
@@ -120,7 +130,7 @@ def gov_uk_pay_webhook():
 
     if not is_webhook_signature_valid(request):
         return "FAILED", 403
-    
+
     try:
         process_webhook_data(request.get_json())
     except Exception as e:

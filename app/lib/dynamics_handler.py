@@ -1,5 +1,3 @@
-
-
 from app.lib.models import ServiceRecordRequest
 
 

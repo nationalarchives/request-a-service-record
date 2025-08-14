@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class ServiceRecordRequest(db.Model):
     __tablename__ = "service_record_requests"
 
@@ -30,5 +31,9 @@ class ServiceRecordRequest(db.Model):
     requester_town_city = db.Column(db.String(128))
     service_branch = db.Column(db.String(64))
     service_number = db.Column(db.String(64), nullable=True)
-    evidence_of_death = db.Column(db.String(64), nullable=True) # TODO: Needs to store UUID generated when saving file to S3
-    payment_id = db.Column(db.String(64), nullable=True)  # To store the payment ID from GOV.UK Pay
+    evidence_of_death = db.Column(
+        db.String(64), nullable=True
+    )  # TODO: Needs to store UUID generated when saving file to S3
+    payment_id = db.Column(
+        db.String(64), nullable=True
+    )  # To store the payment ID from GOV.UK Pay

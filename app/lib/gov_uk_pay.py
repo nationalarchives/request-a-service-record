@@ -1,12 +1,15 @@
-import requests
-from flask import current_app
-import hmac
 import hashlib
+import hmac
+
+import requests
 from app.lib.db_handler import delete_service_record_request, get_service_record_request
 from app.lib.dynamics_handler import send_data_to_dynamics
+from flask import current_app
 
 
-def create_payment(amount: int, description: str, reference: str, email: str | None, return_url: str) -> dict | None:
+def create_payment(
+    amount: int, description: str, reference: str, email: str | None, return_url: str
+) -> dict | None:
     headers = {
         "Authorization": f"Bearer {current_app.config["GOV_UK_PAY_API_KEY"]}",
         "Content-Type": "application/json",
@@ -40,11 +43,7 @@ def is_webhook_signature_valid(request: requests.Request) -> bool:
     pay_signature = request.headers.get("Pay-Signature", "")
     body = request.get_data()
 
-    hmac_obj = hmac.new(
-        signing_secret.encode("utf-8"),
-        body,
-        hashlib.sha256
-    )
+    hmac_obj = hmac.new(signing_secret.encode("utf-8"), body, hashlib.sha256)
 
     generated_signature = hmac_obj.hexdigest()
 
