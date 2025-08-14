@@ -1,4 +1,5 @@
-from app.lib.content import get_field_content, load_content, prepare_country_options
+from app.constants import ServiceBranches, COUNTRY_CHOICES
+from app.lib.content import get_field_content, load_content
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileSize
 from tna_frontend_jinja.wtforms import (
@@ -99,10 +100,8 @@ class RequestAServiceRecord(FlaskForm):
     service_branch = RadioField(
         get_field_content(content, "service_branch", "label"),
         choices=[
-            (key, value)
-            for key, value in get_field_content(
-                content, "service_branch", "options"
-            ).items()
+            (name, member.value)
+            for name, member in ServiceBranches.__members__.items()
         ],
         validators=[
             InputRequired(
@@ -265,7 +264,7 @@ class RequestAServiceRecord(FlaskForm):
 
     requester_country = SelectField(
         get_field_content(content, "requester_country", "label"),
-        choices=prepare_country_options(content),
+        choices= {get_field_content(content, "requester_country", "prompt_to_select"),} | COUNTRY_CHOICES,
         widget=TnaSelectWidget(),
         validators=[
             InputRequired(
