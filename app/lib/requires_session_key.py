@@ -6,7 +6,7 @@ def requires_session_key(app_or_blueprint):
     def check_session_key():
 
         required_key = "entered_through_index_page"
-        exempt_routes = ["main.index", "static", "healthcheck.healthcheck"]
+        exempt_routes = ["main.index", "static", "healthcheck.healthcheck", "main.gov_uk_pay_webhook"]
         short_session_id = request.cookies.get("session", "unknown")[0:7]
 
         # This path must be exempt because we use it to check for 308 redirects with trailing slashes
