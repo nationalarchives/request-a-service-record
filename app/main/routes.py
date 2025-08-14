@@ -49,7 +49,7 @@ def review():
     )
 
 
-@bp.route("/send-to-govuk-pay/")
+@bp.route("/send-to-gov-uk-pay/")
 def send_to_gov_pay():
     content = load_content()
     form_data = session.get("form_data", {})
@@ -115,8 +115,8 @@ def confirm_payment_received():
     return render_template("main/confirm-payment-received.html", content=content)
 
 
-@bp.route("/govuk-pay-webhook/", methods=["POST"])
-def govuk_pay_webhook():
+@bp.route("/gov-uk-pay-webhook/", methods=["POST"])
+def gov_uk_pay_webhook():
 
     if not is_webhook_signature_valid(request):
         return "FAILED", 403
