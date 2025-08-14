@@ -11,12 +11,9 @@ class FormPages:
     Each page can have requirements for completion and can redirect to another page when complete.
     """
 
-    pages: list["FormPage"] = []
-    starting_page: "FormPage"
-
     def __init__(self, pages: list["FormPage"], starting_page: "FormPage"):
-        self.pages = pages
-        self.starting_page = starting_page
+        self.pages: list["FormPage"] = pages
+        self.starting_page: "FormPage" = starting_page
 
     def get_all_pages(self) -> list["FormPage"]:
         """
@@ -58,22 +55,6 @@ class FormPage:
     Each page has requirements for completion.
     """
 
-    name: str
-    slug: str
-    description: str
-    template: str = "example_flow/form_page.html"
-    requires_completion_of: list["FormPage"] = []
-    requires_completion_of_any: list["FormPage"] = []
-    requires_completion_of_any_fallback: Optional["FormPage"] = None
-    requires_responses: tuple["FormPage", str, str] = []
-    when_complete: list[
-        PageCompletionRuleFormPage
-        | PageCompletionRuleFlaskMethod
-        | PageCompletionRuleURL
-    ] = []
-    form: Optional[FlaskForm] = None
-    form_class: Optional[FlaskForm] = None
-
     def __init__(
         self,
         name: str,
@@ -82,13 +63,21 @@ class FormPage:
         template: str = None,
         form: Optional[FlaskForm] = None,
     ):
-        self.name = name
-        self.slug = slug
-        self.description = description
-        if template is not None:
-            self.template = template
-        if form is not None:
-            self.form_class = form
+        self.name: str = name
+        self.slug: str = slug
+        self.description: str = description
+        self.template: str = template if template else "example_flow/form_page.html"
+        self.requires_completion_of: list["FormPage"] = []
+        self.requires_completion_of_any: list["FormPage"] = []
+        self.requires_completion_of_any_fallback: Optional["FormPage"] = None
+        self.requires_responses: tuple["FormPage", str, str] = []
+        self.when_complete: list[
+            PageCompletionRuleFormPage
+            | PageCompletionRuleFlaskMethod
+            | PageCompletionRuleURL
+        ] = []
+        self.form: Optional[FlaskForm] = None
+        self.form_class: Optional[FlaskForm] = form if form else None
 
     def require_completion_of(self, *pages: "FormPage"):
         """
@@ -167,9 +156,6 @@ class FormPage:
             self.form = self.form_class(obj=self.get_saved_form_data())
 
         for page in self.requires_completion_of:
-            print(
-                f"Checking completion for required page: {page.slug} as part of {self.slug} - {page.is_complete()}"
-            )
             if not page.is_complete():
                 current_app.logger.warning(
                     f"Required page '{page.slug}' is not complete."
@@ -179,9 +165,6 @@ class FormPage:
         if len(self.requires_completion_of_any):
             any_complete = False
             for page in self.requires_completion_of_any:
-                print(
-                    f"Checking completion for required page as part of requires_completion_of_any: {page.slug} as part of {self.slug} - {page.is_complete()}"
-                )
                 if page.is_complete():
                     any_complete = True
                     break
@@ -190,6 +173,9 @@ class FormPage:
                     "None of the any required pages are complete."
                 )
                 if self.requires_completion_of_any_fallback:
+                    current_app.logger.warning(
+                        f"Redirecting to fallback page: {self.requires_completion_of_any_fallback.slug}"
+                    )
                     return redirect(
                         url_for(
                             "example_flow.page",
@@ -197,6 +183,9 @@ class FormPage:
                         )
                     )
                 else:
+                    current_app.logger.warning(
+                        f"Redirecting to first required page: {self.requires_completion_of_any[0].slug}"
+                    )
                     return redirect(
                         url_for(
                             "example_flow.page",
@@ -224,23 +213,23 @@ class FormPage:
             form_data.pop("csrf_token")
             form_data.pop("submit")
             self.save_form_data(form_data)
-            if matching_rule := next(
-                (
-                    rule
-                    for rule in self.when_complete
-                    if rule["condition"] is None or rule["condition"](form_data)
-                ),
-                None,
-            ):
-                if matching_rule["page"]:
-                    return redirect(
-                        url_for(
-                            "example_flow.page", page_slug=matching_rule["page"].slug
+            for rule in self.when_complete:
+                current_app.logger.debug(f"Checking completion rule: {rule}")
+                if rule["condition"] is None or rule["condition"](form_data):
+                    if rule["page"]:
+                        current_app.logger.debug(
+                            f"Redirecting to page: {rule['page'].slug}"
                         )
-                    )
-                if matching_rule["flask_method"]:
-                    return redirect(url_for(matching_rule["flask_method"]))
-                if matching_rule["url"]:
-                    return redirect(matching_rule["url"])
+                        return redirect(
+                            url_for("example_flow.page", page_slug=rule["page"].slug)
+                        )
+                    if rule["flask_method"]:
+                        current_app.logger.debug(
+                            f"Redirecting to Flask method: {rule['flask_method']}"
+                        )
+                        return redirect(url_for(rule["flask_method"]))
+                    if rule["url"]:
+                        current_app.logger.debug(f"Redirecting to URL: {rule['url']}")
+                        return redirect(rule["url"])
             raise Exception("No matching completion rule found.")
         return render_template(self.template, page=self, form=self.form, **kwargs)

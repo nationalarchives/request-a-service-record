@@ -8,7 +8,6 @@ from .form import example_form_flow
 def start():
     session.clear()
     starting_page = example_form_flow.get_starting_page()
-    print(f"Starting page slug: {starting_page.slug}")
     return redirect(url_for("example_flow.page", page_slug=starting_page.slug))
 
 

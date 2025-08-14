@@ -49,9 +49,7 @@ type_of_chocolate.require_response(
 ).redirect_when_complete(page=final_page)
 
 # Require the completion of previous pages
-pizza_brand.redirect_when_complete(page=final_page).require_completion_of(
-    pizza_topping
-).redirect_when_complete(page=final_page)
+pizza_brand.require_completion_of(pizza_topping).redirect_when_complete(page=final_page)
 
 # Require completion of any of the previous pages
 final_page.require_completion_of_any(
