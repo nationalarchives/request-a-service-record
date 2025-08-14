@@ -10,7 +10,6 @@ from flask import redirect, render_template, session, url_for
 @bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
 def index():
-    session["entered_through_index_page"] = True
 
     content = load_content()
     return render_template("main/index.html", content=content)
