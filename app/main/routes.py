@@ -1,9 +1,9 @@
+from app.forms.proceed_to_pay import ProceedToPay
+from app.forms.request_a_service_record import RequestAServiceRecord
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
 from app.lib.gov_uk_pay import check_payment, create_payment
 from app.main import bp
-from app.main.forms.proceed_to_pay import ProceedToPay
-from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
 
 

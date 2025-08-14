@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{%- set pageTitle = page.name -%}
+
+{% block content %}
+  <div class="tna-section">
+    <div class="tna-container">
+      <div
+        class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+
+        {% if form.errors %}
+          {{ tnaErrorSummary(wtforms_errors(form)) }}
+        {% endif %}
+
+        <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+
+        <p>Thank you</p>
+
+        <dl class="tna-dl">
+          {% for page in session %}
+          <dt>{{ page }}</dt>
+          <dd>
+            {{ session[page] }}
+          </dd>
+          {% endfor %}
+        </dl>
+
+        <p>
+          <a href="{{ url_for('example_flow.start') }}" class="tna-button">Start again</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

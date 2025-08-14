@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{%- set pageTitle = page.name -%}
+
+{% block content %}
+  <div class="tna-section">
+    <div class="tna-container">
+      <div
+        class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+
+        {% if form.errors %}
+          {{ tnaErrorSummary(wtforms_errors(form)) }}
+        {% endif %}
+
+        <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+
+        <form action="{{ url_for('example_flow.page', page_slug=page.slug) }}" method="post" enctype="multipart/form-data" novalidate>
+          {{ form.csrf_token }}
+
+          {% for field in form %}
+            {% if field.name != 'submit' %}
+              {{ field }}
+            {% endif %}
+          {% endfor %}
+
+          <div class="tna-button-group">
+            {{ form.submit }}
+          </div>
+        </form>
+
+        <h2 class="tna-heading-l">Session data</h2>
+        <dl class="tna-dl">
+          {% for page in session %}
+          <dt>{{ page }}</dt>
+          <dd>
+            {{ session[page] }}
+          </dd>
+          {% endfor %}
+        </dl>
+
+        <h2 class="tna-heading-l">All pages</h2>
+        <ul class="tna-ul">
+          {% for page in pages %}
+          <li>
+            <a href="{{ url_for('example_flow.page', page_slug=page.slug) }}">{{ page.name }}</a>
+            {% if page.is_complete() %}
+              (Complete)
+            {% else %}
+              (Incomplete)
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+
+        <p>
+          <a href="{{ url_for('example_flow.start') }}" class="tna-button">Start again</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

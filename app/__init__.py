@@ -14,7 +14,7 @@ def create_app(config_class):
     app = Flask(__name__, static_url_path="/request-a-service-record/static")
     app.config.from_object(config_class)
 
-    requires_session_key(app)
+    # requires_session_key(app). # Disabled for now, uncomment when needed
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
@@ -97,10 +97,12 @@ def create_app(config_class):
             feature={},
         )
 
+    from .example_flow import bp as example_flow_bp
     from .healthcheck import bp as healthcheck_bp
     from .main import bp as site_bp
 
     app.register_blueprint(site_bp, url_prefix="/request-a-service-record")
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
+    app.register_blueprint(example_flow_bp, url_prefix="/example")
 
     return app
