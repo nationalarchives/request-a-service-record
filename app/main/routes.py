@@ -5,7 +5,8 @@ from app.main import bp
 from app.main.forms.proceed_to_pay import ProceedToPay
 from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
-
+from app.lib.models import db, ServiceRecordRequest
+from datetime import datetime
 
 @bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
@@ -51,31 +52,48 @@ def review():
 @bp.route("/send-to-govuk-pay/")
 def send_to_gov_pay():
     content = load_content()
+    form_data = session.get("form_data", {})
+    requester_email = form_data.get("requester_email", None)
+
     response = create_payment(
         amount=1000,
         description=content["app"]["title"],
         reference="ServiceRecordRequest",
+        email=requester_email,
         return_url=url_for("main.handle_gov_uk_pay_response", _external=True),
     )
 
     if not response:
         return redirect(url_for("main.payment_link_creation_failed"))
     else:
-        # TODO: We will need to save the form data and payment ID to a database to protect from session hijacking
-        session["payment_url"] = (
+        payment_url = (
             response.get("_links", {}).get("next_url", "").get("href", "")
         )
-        session["payment_id"] = response.get("payment_id", "")
-        return redirect(session["payment_url"])
+        payment_id = response.get("payment_id", "")
+
+        form_data["date_of_birth"] = datetime.strptime(form_data["date_of_birth"], "%a, %d %b %Y %H:%M:%S GMT")
+        form_data["date_of_death"] = datetime.strptime(form_data["date_of_death"], "%a, %d %b %Y %H:%M:%S GMT")
+
+        record = ServiceRecordRequest(
+            **form_data,
+            payment_id=payment_id
+        )
+        db.session.add(record)
+        db.session.commit()
+
+        return redirect(payment_url)
 
 
 @bp.route("/handle-gov-uk-pay-response/")
 def handle_gov_uk_pay_response():
-    payment_id = session.get("payment_id", "")
-    has_paid = check_payment(payment_id)
+    # This was only temporary logic while we were storing payment_id
+    # in session data. Now it's in a DB - we will need a webhook to process
+    # the DB item later.
+    # payment_id = session.get("payment_id", "")
+    # has_paid = check_payment(payment_id)
 
-    if not has_paid:
-        return redirect(url_for("main.payment_incomplete"))
+    # if not has_paid:
+    #     return redirect(url_for("main.payment_incomplete"))
     return redirect(url_for("main.confirm_payment_received"))
 
 
