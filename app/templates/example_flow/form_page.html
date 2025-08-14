@@ -18,13 +18,11 @@
           {{ form.csrf_token }}
 
           {% for field in form %}
-            {% if field.name != 'submit' %}
-              {{ field }}
-            {% endif %}
+            {{ field }}
           {% endfor %}
 
           <div class="tna-button-group">
-            {{ form.submit }}
+            <button class="tna-button" type="submit">Continue</button>
           </div>
         </form>
 

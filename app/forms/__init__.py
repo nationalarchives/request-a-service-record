@@ -37,16 +37,19 @@ class FormPages:
 class PageCompletionRuleFormPage(TypedDict):
     page: "FormPage"
     condition: Optional[Callable]
+    when: Optional[tuple[str, str]]
 
 
 class PageCompletionRuleFlaskMethod(TypedDict):
     flask_method: str
     condition: Optional[Callable]
+    when: Optional[tuple[str, str]]
 
 
 class PageCompletionRuleURL(TypedDict):
     url: str
     condition: Optional[Callable]
+    when: Optional[tuple[str, str]]
 
 
 class FormPage:
@@ -109,6 +112,7 @@ class FormPage:
         page: "FormPage" = None,
         flask_method: str = None,
         url: str = None,
+        when: Optional[tuple[str, str]] = None,
         condition: Optional[Callable] = None,
     ):
         """
@@ -121,6 +125,7 @@ class FormPage:
                 "page": page,
                 "url": url,
                 "flask_method": flask_method,
+                "when": when,
                 "condition": condition,
             }
         )
@@ -210,12 +215,19 @@ class FormPage:
         """
         if request.method == "POST" and self.is_complete():
             form_data = self.form.data
-            form_data.pop("csrf_token")
-            form_data.pop("submit")
+            form_data.pop("csrf_token", None)
+            form_data.pop("submit", None)
             self.save_form_data(form_data)
             for rule in self.when_complete:
                 current_app.logger.debug(f"Checking completion rule: {rule}")
-                if rule["condition"] is None or rule["condition"](form_data):
+                if (
+                    (rule["when"] is None and rule["condition"] is None)
+                    or (
+                        rule["when"]
+                        and form_data.get(rule["when"][0], None) == rule["when"][1]
+                    )
+                    or (rule["condition"] and rule["condition"](form_data))
+                ):
                     if rule["page"]:
                         current_app.logger.debug(
                             f"Redirecting to page: {rule['page'].slug}"

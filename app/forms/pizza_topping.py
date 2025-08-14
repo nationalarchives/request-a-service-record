@@ -1,12 +1,6 @@
 from flask_wtf import FlaskForm
-from tna_frontend_jinja.wtforms import (
-    TnaRadiosWidget,
-    TnaSubmitWidget,
-)
-from wtforms import (
-    RadioField,
-    SubmitField,
-)
+from tna_frontend_jinja.wtforms import TnaRadiosWidget
+from wtforms import RadioField
 from wtforms.validators import InputRequired
 
 
@@ -27,5 +21,3 @@ class PizzaToppings(FlaskForm):
         ],
         widget=TnaRadiosWidget(),
     )
-
-    submit = SubmitField("Continue", widget=TnaSubmitWidget())

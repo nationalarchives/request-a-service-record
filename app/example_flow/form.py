@@ -25,19 +25,16 @@ final_page = FormPage(
 # Handle the flow logic for different options
 pizza_or_chocolate.redirect_when_complete(
     page=pizza_topping,
-    condition=lambda form_data: form_data.get("food") == "pizza",
-)
-pizza_or_chocolate.redirect_when_complete(
+    when=("food", "pizza"),
+).redirect_when_complete(
     page=type_of_chocolate,
-    condition=lambda form_data: form_data.get("food") == "chocolate",
-)
-pizza_or_chocolate.redirect_when_complete(
+    when=("food", "chocolate"),
+).redirect_when_complete(
     flask_method="example_flow.fail",
-    condition=lambda form_data: form_data.get("food") == "neither",
-)
-pizza_or_chocolate.redirect_when_complete(
+    when=("food", "neither"),
+).redirect_when_complete(
     url="https://www.reddit.com/r/catpictures/",
-    condition=lambda form_data: form_data.get("food") == "cats",
+    when=("food", "cats"),
 )
 
 # Require certain responses before proceeding
@@ -49,7 +46,10 @@ type_of_chocolate.require_response(
 ).redirect_when_complete(page=final_page)
 
 # Require the completion of previous pages
-pizza_brand.require_completion_of(pizza_topping).redirect_when_complete(page=final_page)
+pizza_brand.require_completion_of(pizza_topping).redirect_when_complete(
+    url="https://www.dominos.co.uk/",
+    condition=lambda form_data: form_data.get("brand") != "dominos",
+).redirect_when_complete(page=final_page)
 
 # Require completion of any of the previous pages
 final_page.require_completion_of_any(
