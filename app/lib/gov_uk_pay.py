@@ -2,7 +2,7 @@ import requests
 from flask import current_app
 
 
-def create_payment(amount, description, reference, return_url):
+def create_payment(amount, description, reference, email, return_url):
     headers = {
         "Authorization": f"Bearer {current_app.config["GOV_UK_PAY_API_KEY"]}",
         "Content-Type": "application/json",
@@ -14,6 +14,9 @@ def create_payment(amount, description, reference, return_url):
         "reference": reference,  # TODO: Investigate the dynamic reference that other/current services use (TNA-xxxxx?)
         "return_url": return_url,
     }
+
+    if email is not None:
+        payload["email"] = email
 
     response = requests.post(
         current_app.config["GOV_UK_PAY_API_URL"], json=payload, headers=headers
