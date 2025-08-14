@@ -5,20 +5,30 @@
 {% block content %}
   <div class="tna-section">
     <div class="tna-container">
-      <div
-        class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
 
         {% if form.errors %}
           {{ tnaErrorSummary(wtforms_errors(form)) }}
         {% endif %}
 
+        {% set ns = namespace(field_count=0) %}
+        {% for field in form %}
+          {% if field.name != 'csrf_token' %}
+            {% set ns.field_count = ns.field_count + 1 %}
+          {% endif %}
+        {% endfor %}
+
+        {% if ns.field_count > 1 %}
         <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+        {% endif %}
 
         <form action="{{ url_for('example_flow.page', page_slug=page.slug) }}" method="post" enctype="multipart/form-data" novalidate>
-          {{ form.csrf_token }}
-
           {% for field in form %}
-            {{ field }}
+            {% set params = {} %}
+            {% if ns.field_count == 1 %}
+              {% set params = {'headingSize': 'xl', 'headingLevel': 1} %}
+            {% endif %}
+            {{ field(params=params) }}
           {% endfor %}
 
           <div class="tna-button-group">
@@ -41,17 +51,18 @@
           {% for page in pages %}
           <li>
             <a href="{{ url_for('example_flow.page', page_slug=page.slug) }}">{{ page.name }}</a>
-            {% if page.is_complete() %}
-              (Complete)
-            {% else %}
-              (Incomplete)
+            {% if page.form %}
+              {% if page.is_complete() %}
+                (Complete)
+              {% else %}
+                (Incomplete)
+              {% endif %}
             {% endif %}
           </li>
           {% endfor %}
         </ul>
-
         <p>
-          <a href="{{ url_for('example_flow.start') }}" class="tna-button">Start again</a>
+          <a href="{{ url_for('example_flow.start') }}">Clear data and start again</a>
         </p>
       </div>
     </div>

@@ -73,7 +73,7 @@ class FormPage:
         self.requires_completion_of: list["FormPage"] = []
         self.requires_completion_of_any: list["FormPage"] = []
         self.requires_completion_of_any_fallback: Optional["FormPage"] = None
-        self.requires_responses: tuple["FormPage", str, str] = []
+        self.requires_responses: list[tuple["FormPage", str, str]] = []
         self.when_complete: list[
             PageCompletionRuleFormPage
             | PageCompletionRuleFlaskMethod
@@ -86,7 +86,7 @@ class FormPage:
         """
         Specify which pages must be completed before this page can be accessed.
         """
-        self.requires_completion_of = pages
+        self.requires_completion_of.extend(pages)
         return self
 
     def require_completion_of_any(
@@ -97,14 +97,15 @@ class FormPage:
         If none are completed, redirect to the fallback page.
         """
         self.requires_completion_of_any = pages
-        self.requires_completion_of_any_fallback = fallback_page
+        if fallback_page:
+            self.requires_completion_of_any_fallback = fallback_page
         return self
 
     def require_response(self, page: "FormPage", key: str, response: str):
         """
         Specify that a response from the given page is required before this page can be accessed.
         """
-        self.requires_responses = (page, key, response)
+        self.requires_responses.append((page, key, response))
         return self
 
     def redirect_when_complete(
@@ -198,8 +199,8 @@ class FormPage:
                         )
                     )
 
-        if self.requires_responses:
-            (page, key, required_response) = self.requires_responses
+        for requires_responses in self.requires_responses:
+            (page, key, required_response) = requires_responses
             data = page.get_saved_form_data()
             if data.get(key, None) != required_response:
                 current_app.logger.warning(
