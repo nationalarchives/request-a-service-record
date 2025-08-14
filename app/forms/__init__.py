@@ -79,6 +79,7 @@ class FormPage:
             | PageCompletionRuleFlaskMethod
             | PageCompletionRuleURL
         ] = []
+        self.clear_pages_on_completion: list["FormPage"] = []
         self.form: Optional[FlaskForm] = None
         self.form_class: Optional[FlaskForm] = form if form else None
 
@@ -132,6 +133,13 @@ class FormPage:
         )
         return self
 
+    def clear_on_completion(self, *pages: "FormPage"):
+        """
+        Specify which pages should be cleared from the session when this page is completed.
+        """
+        self.clear_pages_on_completion.extend(pages)
+        return self
+
     def get_saved_form_data(self):
         """
         Get the form data from the session or other storage.
@@ -170,10 +178,12 @@ class FormPage:
 
         if len(self.requires_completion_of_any):
             any_complete = False
+
             for page in self.requires_completion_of_any:
                 if page.is_complete():
                     any_complete = True
                     break
+
             if not any_complete:
                 current_app.logger.warning(
                     "None of the any required pages are complete."
@@ -219,6 +229,12 @@ class FormPage:
             form_data.pop("csrf_token", None)
             form_data.pop("submit", None)
             self.save_form_data(form_data)
+
+            for page in self.clear_pages_on_completion:
+                if page.slug in session:
+                    current_app.logger.debug(f"Clearing page data for: {page.slug}")
+                    session.pop(page.slug, None)
+
             for rule in self.when_complete:
                 current_app.logger.debug(f"Checking completion rule: {rule}")
                 if (
@@ -236,13 +252,16 @@ class FormPage:
                         return redirect(
                             url_for("example_flow.page", page_slug=rule["page"].slug)
                         )
+
                     if rule["flask_method"]:
                         current_app.logger.debug(
                             f"Redirecting to Flask method: {rule['flask_method']}"
                         )
                         return redirect(url_for(rule["flask_method"]))
+
                     if rule["url"]:
                         current_app.logger.debug(f"Redirecting to URL: {rule['url']}")
                         return redirect(rule["url"])
+
             raise Exception("No matching completion rule found.")
         return render_template(self.template, page=self, form=self.form, **kwargs)

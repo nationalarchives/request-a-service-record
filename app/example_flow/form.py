@@ -37,7 +37,7 @@ pizza_or_chocolate.redirect_when_complete(
     when=("food", "cats"),
 )
 
-# Require certain responses before proceeding
+# Require certain responses before proceeding else redirect to that page
 pizza_topping.require_response(
     pizza_or_chocolate, "food", "pizza"
 ).redirect_when_complete(page=pizza_brand)
