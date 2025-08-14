@@ -31,3 +31,4 @@ class ServiceRecordRequest(db.Model):
     service_branch = db.Column(db.String(64))
     service_number = db.Column(db.String(64), nullable=True)
     evidence_of_death = db.Column(db.String(64), nullable=True) # TODO: Needs to store UUID generated when saving file to S3
+    payment_id = db.Column(db.String(64), nullable=True)  # To store the payment ID from GOV.UK Pay
