@@ -1,4 +1,4 @@
-from app.constants import ServiceBranches, COUNTRY_CHOICES
+from app.constants import COUNTRY_CHOICES, ServiceBranches
 from app.lib.content import get_field_content, load_content
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileSize
@@ -100,8 +100,7 @@ class RequestAServiceRecord(FlaskForm):
     service_branch = RadioField(
         get_field_content(content, "service_branch", "label"),
         choices=[
-            (name, member.value)
-            for name, member in ServiceBranches.__members__.items()
+            (name, member.value) for name, member in ServiceBranches.__members__.items()
         ],
         validators=[
             InputRequired(
@@ -264,7 +263,10 @@ class RequestAServiceRecord(FlaskForm):
 
     requester_country = SelectField(
         get_field_content(content, "requester_country", "label"),
-        choices= {get_field_content(content, "requester_country", "prompt_to_select"),} | COUNTRY_CHOICES,
+        choices={
+            get_field_content(content, "requester_country", "prompt_to_select"),
+        }
+        | COUNTRY_CHOICES,
         widget=TnaSelectWidget(),
         validators=[
             InputRequired(
