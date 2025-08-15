@@ -4,7 +4,7 @@ import os
 from app.lib.util import strtobool
 
 
-class Features(object):
+class Features:
     pass
 
 
@@ -61,15 +61,15 @@ class Production(Features):
     GOV_UK_PAY_API_URL = os.environ.get("GOV_UK_PAY_API_URL", "")
 
 
-class Staging(Production, Features):
+class Staging(Production):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
 
-class Develop(Production, Features):
+class Develop(Production):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
-class Test(Production, Features):
+class Test(Production):
     SECRET_KEY = "abc123"
     DEBUG = True
     TESTING = True
