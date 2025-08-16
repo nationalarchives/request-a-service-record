@@ -1,6 +1,7 @@
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
 from app.lib.gov_uk_pay import check_payment, create_payment
+from app.lib.state_machine import RoutingStateMachine
 from app.main import bp
 from app.main.forms.proceed_to_pay import ProceedToPay
 from app.main.forms.request_a_service_record import RequestAServiceRecord
@@ -17,25 +18,27 @@ def index():
 def all_fields_in_one_form_get():
     form = RequestAServiceRecord()
     content = load_content()
+    state_machine = RoutingStateMachine()
+    state_machine.show_form()
     return render_template(
         "main/all-fields-in-one-form.html", content=content, form=form
     )
 
-@bp.route("/all-fields-in-one-form/", methods=["GET", "POST"])
-def all_fields_in_one_form():
 @bp.route("/all-fields-in-one-form/", methods=["POST"])
 def all_fields_in_one_form_post():
     form = RequestAServiceRecord()
     content = load_content()
+    state_machine = RoutingStateMachine()
 
     if form.validate_on_submit():
         session["form_data"] = {}
         for field_name, field in form._fields.items():
             if field_name not in ["csrf_token", "submit", "evidence_of_death"]:
                 session["form_data"][field_name] = field.data
+        state_machine.valid_form_submitted()
+        return redirect(url_for(state_machine.current_state.value))
 
-        return redirect(url_for("main.review"))
-
+    state_machine.invalid_form_submitted()
     return render_template(
         "main/all-fields-in-one-form.html", content=content, form=form
     )
@@ -46,9 +49,11 @@ def review():
     content = load_content()
     form = ProceedToPay()
     form_data = session.get("form_data", {})
+    state_machine = RoutingStateMachine()
 
     if form.validate_on_submit():
-        return redirect(url_for("main.send_to_gov_pay"))
+        state_machine.continue_to_payment()
+        return redirect(url_for(state_machine.current_state.value))
 
     return render_template(
         "main/review.html", form=form, form_data=form_data, content=content
