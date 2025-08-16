@@ -13,9 +13,18 @@ def index():
     content = load_content()
     return render_template("main/index.html", content=content)
 
+@bp.route("/all-fields-in-one-form/", methods=["GET"])
+def all_fields_in_one_form_get():
+    form = RequestAServiceRecord()
+    content = load_content()
+    return render_template(
+        "main/all-fields-in-one-form.html", content=content, form=form
+    )
 
 @bp.route("/all-fields-in-one-form/", methods=["GET", "POST"])
 def all_fields_in_one_form():
+@bp.route("/all-fields-in-one-form/", methods=["POST"])
+def all_fields_in_one_form_post():
     form = RequestAServiceRecord()
     content = load_content()
 
