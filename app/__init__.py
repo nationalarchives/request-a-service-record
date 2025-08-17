@@ -3,6 +3,7 @@ import logging
 from app.lib.cache import cache
 from app.lib.context_processor import cookie_preference, now_iso_8601
 from app.lib.requires_session_key import requires_session_key
+from app.lib.middleware.routing_middleware import routing_middleware
 from app.lib.talisman import talisman
 from app.lib.template_filters import slugify
 from flask import Flask
@@ -15,6 +16,7 @@ def create_app(config_class):
     app.config.from_object(config_class)
 
     requires_session_key(app)
+    routing_middleware(app)
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
