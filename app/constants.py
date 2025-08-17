@@ -1,6 +1,17 @@
 from enum import Enum
 
 
+class AppRoutes(Enum):
+    INDEX = "/"
+    ALL_FIELDS_IN_ONE_FORM = "/all-fields-in-one-form/"
+    REVIEW = "/review/"
+    SEND_TO_GOVUK_PAY = "/send-to-govuk-pay/"
+    HANDLE_GOV_UK_PAY_RESPONSE = "/handle-gov-uk-pay-response/"
+    PAYMENT_LINK_CREATION_FAILED = "/payment-link-creation_failed/"
+    PAYMENT_INCOMPLETE = "/payment-incomplete/"
+    CONFIRM_PAYMENT_RECEIVED = "/confirm-payment-received/"
+
+
 class ServiceBranches(Enum):
     BRITISH_ARMY = "British Army"
     ROYAL_AIR_FORCE = "Royal Air Force"

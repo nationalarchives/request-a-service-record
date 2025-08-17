@@ -1,3 +1,4 @@
+from app.constants import AppRoutes
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
 from app.lib.gov_uk_pay import check_payment, create_payment
@@ -7,14 +8,14 @@ from app.main.forms.request_a_service_record import RequestAServiceRecord
 from flask import redirect, render_template, session, url_for
 
 
-@bp.route("/")
+@bp.route(AppRoutes.INDEX)
 @cache.cached(key_prefix=cache_key_prefix)
 def index():
     content = load_content()
     return render_template("main/index.html", content=content)
 
 
-@bp.route("/all-fields-in-one-form/", methods=["GET", "POST"])
+@bp.route(AppRoutes.ALL_FIELDS_IN_ONE_FORM, methods=["GET", "POST"])
 def all_fields_in_one_form():
     form = RequestAServiceRecord()
     content = load_content()
@@ -32,7 +33,7 @@ def all_fields_in_one_form():
     )
 
 
-@bp.route("/review/", methods=["GET", "POST"])
+@bp.route(AppRoutes.REVIEW, methods=["GET", "POST"])
 def review():
     content = load_content()
     form = ProceedToPay()
@@ -46,7 +47,7 @@ def review():
     )
 
 
-@bp.route("/send-to-govuk-pay/")
+@bp.route(AppRoutes.SEND_TO_GOVUK_PAY)
 def send_to_gov_pay():
     content = load_content()
     response = create_payment(
@@ -67,7 +68,7 @@ def send_to_gov_pay():
         return redirect(session["payment_url"])
 
 
-@bp.route("/handle-gov-uk-pay-response/")
+@bp.route(AppRoutes.HANDLE_GOV_UK_PAY_RESPONSE)
 def handle_gov_uk_pay_response():
     payment_id = session.get("payment_id", "")
     has_paid = check_payment(payment_id)
@@ -77,19 +78,19 @@ def handle_gov_uk_pay_response():
     return redirect(url_for("main.confirm_payment_received"))
 
 
-@bp.route("/payment-link-creation_failed/")
+@bp.route(AppRoutes.PAYMENT_LINK_CREATION_FAILED)
 def payment_link_creation_failed():
     content = load_content()
     return render_template("main/payment-link-creation-failed.html", content=content)
 
 
-@bp.route("/payment-incomplete/")
+@bp.route(AppRoutes.PAYMENT_INCOMPLETE)
 def payment_incomplete():
     content = load_content()
     return render_template("main/payment-incomplete.html", content=content)
 
 
-@bp.route("/confirm-payment-received/")
+@bp.route(AppRoutes.CONFIRM_PAYMENT_RECEIVED)
 def confirm_payment_received():
     content = load_content()
     return render_template("main/confirm-payment-received.html", content=content)
