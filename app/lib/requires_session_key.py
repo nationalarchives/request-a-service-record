@@ -22,6 +22,7 @@ def requires_session_key(app_or_blueprint):
             current_app.logger.warning(
                 f"'{required_key}' not found or set on {short_session_id} session. Redirecting to start page."
             )
+            session["entered_through_index_page"] = True
             return redirect(url_for("main.index"))
         else:
             current_app.logger.debug(
