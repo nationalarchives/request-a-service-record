@@ -4,11 +4,12 @@ import os
 from app.lib.util import strtobool
 
 
-class Features(object):
+class Features:
     pass
 
 
 class Production(Features):
+    CONTAINER_IMAGE: str = os.environ.get("CONTAINER_IMAGE", "")
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
     TNA_FRONTEND_VERSION: str = ""
     try:
@@ -68,15 +69,15 @@ class Production(Features):
     )
 
 
-class Staging(Production, Features):
+class Staging(Production):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
 
-class Develop(Production, Features):
+class Develop(Production):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
-class Test(Production, Features):
+class Test(Production):
     SECRET_KEY = "abc123"
     DEBUG = True
     TESTING = True

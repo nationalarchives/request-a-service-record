@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("accessing mid-journey pages requirements", () => {
   const INDEX_URL = "/request-a-service-record/";
-  const PROTECTED_URL = "/request-a-service-record/all-fields-form/";
+  const PROTECTED_URL = "/request-a-service-record/all-fields-in-one-form/";
 
   test.beforeEach(async ({ page }) => {
     await page.context().clearCookies();
@@ -34,5 +34,19 @@ test.describe("accessing mid-journey pages requirements", () => {
 
     expect(response.status()).toBe(200);
     expect(await response.text()).toContain("ok");
+  });
+
+  test("when a user has been redirected once, they are not redirected again", async ({
+    page,
+  }) => {
+    // The first visit to the protected route should redirect to the index route
+    await page.goto(PROTECTED_URL);
+    expect(page.url()).toContain(INDEX_URL);
+
+    // Second visit to the protected route should not redirect again
+    const response = await page.goto(PROTECTED_URL);
+
+    expect(page.url()).toContain(PROTECTED_URL);
+    expect(response.status()).toBe(200);
   });
 });
