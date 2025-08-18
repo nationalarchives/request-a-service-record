@@ -84,7 +84,6 @@ def send_to_gov_pay():
             if form_data.get("date_of_death")
             else None
         )
-
         form_data["payment_id"] = payment_id
 
         add_service_record_request(form_data)

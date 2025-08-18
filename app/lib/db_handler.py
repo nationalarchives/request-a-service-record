@@ -15,7 +15,7 @@ def get_service_record_request(payment_id: str) -> ServiceRecordRequest | None:
         current_app.logger.error(f"Error fetching service record request: {e}")
 
     if not record:
-        raise ValueError(f"Service record not found for payment_id: {payment_id}")
+        current_app.logger.error(f"Service record not found for payment_id: {payment_id}")
 
     return record
 
