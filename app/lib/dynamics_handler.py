@@ -38,3 +38,4 @@ def send_data_to_dynamics(record: ServiceRecordRequest) -> None:
     """
 
     # Send email
+    print(email_data)  # Replace with actual email sending logic
