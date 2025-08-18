@@ -2,13 +2,12 @@ from datetime import datetime
 
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
+from app.lib.db_handler import add_service_record_request
 from app.lib.gov_uk_pay import (
     create_payment,
     is_webhook_signature_valid,
     process_webhook_data,
 )
-from app.lib.db_handler import add_service_record_request
-from app.lib.models import ServiceRecordRequest, db
 from app.main import bp
 from app.main.forms.proceed_to_pay import ProceedToPay
 from app.main.forms.request_a_service_record import RequestAServiceRecord

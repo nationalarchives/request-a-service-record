@@ -65,13 +65,13 @@ def process_webhook_data(data: dict) -> None:
     event_type = data.get("event_type", "")
 
     record = get_service_record_request(payment_id)
-    
+
     if record is None:
         raise ValueError(f"Service record not found for payment ID: {payment_id}")
-    
+
     if event_type not in [type.value for type in GOV_UK_PAY_EVENT_TYPES]:
         raise ValueError(f"Unknown event type received: {event_type}")
-    
+
     if event_type == GOV_UK_PAY_EVENT_TYPES.SUCCESS.value:
         send_data_to_dynamics(record)
 
