@@ -38,7 +38,7 @@ def all_fields_in_one_form_post(state_machine):
             if field_name not in ["csrf_token", "submit", "evidence_of_death"]:
                 session["form_data"][field_name] = field.data
         state_machine.valid_form_submitted()
-        return redirect(url_for(state_machine.current_state.value))
+        return redirect(url_for(state_machine.route_for_current_state))
 
     state_machine.invalid_form_submitted()
     return render_template(
@@ -55,7 +55,7 @@ def review(state_machine):
 
     if form.validate_on_submit():
         state_machine.continue_to_payment()
-        return redirect(url_for(state_machine.current_state.value))
+        return redirect(url_for(state_machine.route_for_current_state))
 
     return render_template(
         "main/review.html", form=form, form_data=form_data, content=content
