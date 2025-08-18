@@ -1,3 +1,4 @@
+from enum import Enum
 import hashlib
 import hmac
 
@@ -5,6 +6,12 @@ import requests
 from app.lib.db_handler import delete_service_record_request, get_service_record_request
 from app.lib.dynamics_handler import send_data_to_dynamics
 from flask import current_app
+
+
+class GOV_UK_PAY_EVENT_TYPES(Enum):
+    EXPIRED = "card_payment_expired"
+    CANCELLED = "card_payment_cancelled"
+    SUCCESS = "card_payment_success"
 
 
 def create_payment(
@@ -55,9 +62,14 @@ def is_webhook_signature_valid(request: requests.Request) -> bool:
 
 def process_webhook_data(data: dict) -> None:
     payment_id = data.get("resource_id", "")
+    event_type = data.get("event_type", "")
 
     record = get_service_record_request(payment_id)
 
-    send_data_to_dynamics(record)
+    if event_type not in [type.value for type in GOV_UK_PAY_EVENT_TYPES]:
+        raise ValueError(f"Unknown event type received: {event_type}")
+
+    if event_type == GOV_UK_PAY_EVENT_TYPES.SUCCESS.value:
+        send_data_to_dynamics(record)
 
     delete_service_record_request(record)
