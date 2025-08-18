@@ -20,6 +20,16 @@ def get_service_record_request(payment_id: str) -> ServiceRecordRequest | None:
     return record
 
 
+def add_service_record_request(data: dict) -> None:
+    try:
+        record = ServiceRecordRequest(**data)
+        db.session.add(record)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.error(f"Error adding service record request: {e}")
+        db.session.rollback()
+
+
 def delete_service_record_request(record: ServiceRecordRequest) -> None:
     try:
         db.session.delete(record)

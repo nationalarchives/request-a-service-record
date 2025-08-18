@@ -7,6 +7,7 @@ from app.lib.gov_uk_pay import (
     is_webhook_signature_valid,
     process_webhook_data,
 )
+from app.lib.db_handler import add_service_record_request
 from app.lib.models import ServiceRecordRequest, db
 from app.main import bp
 from app.main.forms.proceed_to_pay import ProceedToPay
@@ -84,9 +85,9 @@ def send_to_gov_pay():
             else None
         )
 
-        record = ServiceRecordRequest(**form_data, payment_id=payment_id)
-        db.session.add(record)
-        db.session.commit()
+        form_data["payment_id"] = payment_id
+
+        add_service_record_request(form_data)
 
         return redirect(payment_url)
 
