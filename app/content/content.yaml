@@ -1,6 +1,8 @@
 app:
   title: Request a Service Record
 pages:
+  start:
+    heading: Request a military service record
   all_fields_in_one_form:
     service_person_details:
       legend: Service person detail
