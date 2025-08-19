@@ -42,6 +42,7 @@ services:
   dev:
     environment:
       - CONFIG=config.Test
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
     image: ghcr.io/nationalarchives/tna-python-dev:preview
     volumes:
       - ./:/app
