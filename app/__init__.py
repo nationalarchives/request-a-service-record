@@ -7,6 +7,8 @@ from app.lib.requires_session_key import requires_session_key
 from app.lib.talisman import talisman
 from app.lib.template_filters import slugify
 from flask import Flask
+from redis import Redis
+from flask_session.redis import RedisSessionInterface
 from jinja2 import ChoiceLoader, PackageLoader
 from tna_frontend_jinja.wtforms.helpers import WTFormsHelpers
 
@@ -18,6 +20,15 @@ def create_app(config_class):
     requires_session_key(app)
 
     db.init_app(app)
+
+    if app.config.get("REDIS_HOST"):
+        redis = Redis(
+            host=app.config["REDIS_HOST"],
+            port=app.config["REDIS_PORT"],
+            db=app.config["REDIS_DB"],
+            password=app.config["REDIS_PASSWORD"],
+        )
+        app.session_interface = RedisSessionInterface(app=app, client=redis)
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
