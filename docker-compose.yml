@@ -15,6 +15,9 @@ services:
       - COOKIE_DOMAIN=localhost
       - CSP_STYLE_SRC='self',fonts.googleapis.com,p.typekit.net,use.typekit.net
       - CSP_FONT_SRC='self',fonts.gstatic.com,use.typekit.net
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
     env_file:
       - path: .env
         required: false
@@ -51,3 +54,11 @@ services:
       - .:/docs
     ports:
       - 65518:8000
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
