@@ -62,7 +62,7 @@ class Production(Features):
     GOV_UK_PAY_SIGNING_SECRET: str = os.environ.get("GOV_UK_PAY_SIGNING_SECRET", "")
 
     SQLALCHEMY_DATABASE_URI: str = os.environ.get(
-        "SQLALCHEMY_DATABASE_URI", "postgresql://postgres:postgres@db:5432/postgres"
+        "SQLALCHEMY_DATABASE_URI", ""
     )
     SQLALCHEMY_TRACK_MODIFICATIONS: bool = strtobool(
         os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS", "False")
