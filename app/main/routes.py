@@ -16,11 +16,9 @@ def index():
 
 
 @bp.route("/all-fields-in-one-form/", methods=["GET"])
-@with_state_machine
-def all_fields_in_one_form_get(state_machine):
+def all_fields_in_one_form_get():
     form = RequestAServiceRecord()
     content = load_content()
-    state_machine.show_form()
     return render_template(
         "main/all-fields-in-one-form.html", content=content, form=form
     )
@@ -40,7 +38,6 @@ def all_fields_in_one_form_post(state_machine):
         state_machine.valid_form_submitted()
         return redirect(url_for(state_machine.route_for_current_state))
 
-    state_machine.invalid_form_submitted()
     return render_template(
         "main/all-fields-in-one-form.html", content=content, form=form
     )

@@ -28,8 +28,6 @@ class RoutingStateMachine(StateMachine):
     with state machines
     """
     initial = State(initial=True)  # The initial state of our machine
-    showing_form = State()
-    showing_form_with_errors = State()
     showing_submitted_data = State(enter="entering_showing_submitted_data")
     going_to_payment = State(enter="entering_going_to_payment")
 
@@ -43,9 +41,7 @@ class RoutingStateMachine(StateMachine):
     TRUST ME: if you have States described to sound like Events (or vice versa), it will 
     cause confusion and make you hate working with state machines
     """
-    show_form = initial.to(showing_form)
     valid_form_submitted = initial.to(showing_submitted_data)
-    invalid_form_submitted = initial.to(showing_form_with_errors)
     continue_to_payment = initial.to(going_to_payment)
 
     def entering_showing_submitted_data(self):
