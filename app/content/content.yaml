@@ -52,6 +52,8 @@ pages:
       - Your payment was not completed successfully.
 forms:
   fields:
+    start_now:
+      call_to_action: Start now
     forenames:
       label: Forenames (including middle names)
       messages:
