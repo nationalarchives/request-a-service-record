@@ -17,8 +17,6 @@ def create_app(config_class):
 
     requires_session_key(app)
 
-    db.init_app(app)
-
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
     app.logger.setLevel(gunicorn_error_logger.level or "DEBUG")
@@ -106,5 +104,7 @@ def create_app(config_class):
 
     app.register_blueprint(site_bp, url_prefix="/request-a-service-record")
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
+
+    db.init_app(app)
 
     return app
