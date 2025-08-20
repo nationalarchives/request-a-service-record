@@ -16,7 +16,7 @@ export default defineConfig({
       ]
     : "line",
   use: {
-    baseURL: "http://localhost:65500",
+    baseURL: "http://localhost:66517",
     trace: "on-first-retry",
   },
   snapshotPathTemplate:

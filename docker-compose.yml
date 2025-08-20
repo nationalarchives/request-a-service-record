@@ -20,7 +20,7 @@ services:
       - path: .env
         required: false
     ports:
-      - 65500:8080
+      - 65517:8080
     volumes:
       - ./:/app
     depends_on:
@@ -52,4 +52,4 @@ services:
     volumes:
       - .:/docs
     ports:
-      - 65501:8000
+      - 65518:8000
