@@ -29,7 +29,3 @@ def requires_session_key(app_or_blueprint):
             )
             session["entered_through_index_page"] = True
             return redirect(url_for("main.index"))
-        else:
-            current_app.logger.debug(
-                f"'{required_key}' found on {short_session_id} session. Proceeding to {request.endpoint}"
-            )
