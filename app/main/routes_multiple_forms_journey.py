@@ -6,11 +6,20 @@ from app.main.forms.start_now import StartNow
 from app.main.forms.is_service_person_alive import IsServicePersonAlive
 from flask import redirect, render_template, session, url_for
 
+@cache.cached(key_prefix=cache_key_prefix)
+@bp.route("/start/", methods=["GET"])
+def start():
+    content = load_content()
+    form = StartNow()
 
-@bp.route("/start/", methods=["GET", "POST"])
+    return render_template(
+        "main/multi-page-journey/start.html", form=form, content=content
+    )
+
+@bp.route("/start/", methods=["POST"])
 @cache.cached(key_prefix=cache_key_prefix)
 @with_state_machine
-def start(state_machine):
+def start_post(state_machine):
     content = load_content()
     form = StartNow()
 
