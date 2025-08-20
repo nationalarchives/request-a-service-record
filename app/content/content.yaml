@@ -54,6 +54,10 @@ forms:
   fields:
     start_now:
       call_to_action: Start now
+    is_service_person_alive:
+      label: Is this person still alive?
+      messages:
+        required: An answer to this question is required
     forenames:
       label: Forenames (including middle names)
       messages:
