@@ -1,5 +1,4 @@
 import yaml
-from app.constants import COUNTRY_CHOICES
 
 
 def load_content(file_path="app/content/content.yaml"):

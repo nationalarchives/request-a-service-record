@@ -1,10 +1,17 @@
+from datetime import datetime
+
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
-from app.lib.gov_uk_pay import check_payment, create_payment
+from app.lib.db_handler import add_service_record_request
+from app.lib.gov_uk_pay import (
+    create_payment,
+    is_webhook_signature_valid,
+    process_webhook_data,
+)
 from app.main import bp
 from app.main.forms.proceed_to_pay import ProceedToPay
 from app.main.forms.request_a_service_record import RequestAServiceRecord
-from flask import redirect, render_template, session, url_for
+from flask import current_app, redirect, render_template, request, session, url_for
 
 
 @bp.route("/")
@@ -46,34 +53,59 @@ def review():
     )
 
 
-@bp.route("/send-to-govuk-pay/")
+@bp.route("/send-to-gov-uk-pay/")
 def send_to_gov_pay():
     content = load_content()
+    form_data = session.get("form_data", {})
+    requester_email = form_data.get("requester_email", None)
+
     response = create_payment(
         amount=1000,
         description=content["app"]["title"],
         reference="ServiceRecordRequest",
+        email=requester_email,
         return_url=url_for("main.handle_gov_uk_pay_response", _external=True),
     )
 
     if not response:
         return redirect(url_for("main.payment_link_creation_failed"))
     else:
-        # TODO: We will need to save the form data and payment ID to a database to protect from session hijacking
-        session["payment_url"] = (
-            response.get("_links", {}).get("next_url", "").get("href", "")
+        payment_url = response.get("_links", {}).get("next_url", "").get("href", "")
+        payment_id = response.get("payment_id", "")
+
+        date_of_birth = (
+            datetime.strptime(form_data["date_of_birth"], "%a, %d %b %Y %H:%M:%S GMT")
+            if form_data.get("date_of_birth")
+            else None
         )
-        session["payment_id"] = response.get("payment_id", "")
-        return redirect(session["payment_url"])
+        date_of_death = (
+            datetime.strptime(form_data["date_of_death"], "%a, %d %b %Y %H:%M:%S GMT")
+            if form_data.get("date_of_death")
+            else None
+        )
+
+        data = {**form_data, "payment_id": payment_id, "created_at": datetime.now()}
+
+        data["date_of_birth"] = (
+            date_of_birth  # TODO: Temporary until full implementation, date_of_birth/death will be a string
+        )
+        data["date_of_death"] = date_of_death
+
+        add_service_record_request(data)
+
+        return redirect(payment_url)
 
 
 @bp.route("/handle-gov-uk-pay-response/")
 def handle_gov_uk_pay_response():
-    payment_id = session.get("payment_id", "")
-    has_paid = check_payment(payment_id)
+    # This was only temporary logic while we were storing payment_id
+    # in session data. Now it's in a DB - we will need a webhook to process
+    # the DB item later.
+    # payment_id = session.get("payment_id", "")
+    # has_paid = check_payment(payment_id)
 
-    if not has_paid:
-        return redirect(url_for("main.payment_incomplete"))
+    # if not has_paid:
+    #     return redirect(url_for("main.payment_incomplete"))
     return redirect(url_for("main.confirm_payment_received"))
 
 
@@ -93,3 +125,18 @@ def payment_incomplete():
 def confirm_payment_received():
     content = load_content()
     return render_template("main/confirm-payment-received.html", content=content)
+
+
+@bp.route("/gov-uk-pay-webhook/", methods=["POST"])
+def gov_uk_pay_webhook():
+
+    if not is_webhook_signature_valid(request):
+        return "FAILED", 403
+
+    try:
+        process_webhook_data(request.get_json())
+    except Exception as e:
+        current_app.logger.error(f"Error processing webhook data: {e}")
+        return "FAILED", 500
+
+    return "SUCCESS", 200

@@ -55,10 +55,16 @@ class Production(Features):
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
 
-    GA4_ID = os.environ.get("GA4_ID", "")
+    GA4_ID: str = os.environ.get("GA4_ID", "")
 
-    GOV_UK_PAY_API_KEY = os.environ.get("GOV_UK_PAY_API_KEY", "")
-    GOV_UK_PAY_API_URL = os.environ.get("GOV_UK_PAY_API_URL", "")
+    GOV_UK_PAY_API_KEY: str = os.environ.get("GOV_UK_PAY_API_KEY", "")
+    GOV_UK_PAY_API_URL: str = os.environ.get("GOV_UK_PAY_API_URL", "")
+    GOV_UK_PAY_SIGNING_SECRET: str = os.environ.get("GOV_UK_PAY_SIGNING_SECRET", "")
+
+    SQLALCHEMY_DATABASE_URI: str = os.environ.get("SQLALCHEMY_DATABASE_URI", "")
+    SQLALCHEMY_TRACK_MODIFICATIONS: bool = strtobool(
+        os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS", "False")
+    )
 
 
 class Staging(Production):
