@@ -34,6 +34,5 @@ class ServiceRecordRequest(db.Model):
     evidence_of_death = db.Column(
         db.String(64), nullable=True
     )  # TODO: Needs to store UUID generated when saving file to S3
-    payment_id = db.Column(
-        db.String(64), nullable=True
-    )  # To store the payment ID from GOV.UK Pay
+    payment_id = db.Column(db.String(64), nullable=True, unique=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())

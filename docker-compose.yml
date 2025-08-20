@@ -18,6 +18,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_DB=0
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
     env_file:
       - path: .env
         required: false
@@ -39,11 +40,12 @@ services:
     image: adminer
     restart: always
     ports:
-      - 65519:8080
+      - 65502:8080
 
   dev:
     environment:
       - CONFIG=config.Test
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/postgres
     image: ghcr.io/nationalarchives/tna-python-dev:preview
     volumes:
       - ./:/app

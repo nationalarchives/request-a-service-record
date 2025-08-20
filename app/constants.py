@@ -13,7 +13,7 @@ class Ranks(Enum):
     NON_OFFICER = "Non-Officer"
 
 
-COUNTRY_CHOICES = {
+COUNTRY_CHOICES = [
     "United Kingdom",
     "Afghanistan",
     "Aland Islands",
@@ -259,4 +259,4 @@ COUNTRY_CHOICES = {
     "Yemen",
     "Zambia",
     "Zimbabwe",
-}
+]

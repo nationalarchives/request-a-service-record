@@ -19,8 +19,6 @@ def create_app(config_class):
 
     requires_session_key(app)
 
-    db.init_app(app)
-
     if app.config.get("REDIS_HOST"):
         redis = Redis(
             host=app.config["REDIS_HOST"],
@@ -117,5 +115,7 @@ def create_app(config_class):
 
     app.register_blueprint(site_bp, url_prefix="/request-a-service-record")
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
+
+    db.init_app(app)
 
     return app
