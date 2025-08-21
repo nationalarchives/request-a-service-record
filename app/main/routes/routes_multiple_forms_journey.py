@@ -1,6 +1,6 @@
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
-from app.lib.state_machine_decorator import with_state_machine
+from app.lib.state_machine.state_machine_decorator import with_state_machine
 from app.main import bp
 from app.main.forms.start_now import StartNow
 from app.main.forms.is_service_person_alive import IsServicePersonAlive
