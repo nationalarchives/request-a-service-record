@@ -66,6 +66,11 @@ class Production(Features):
         os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS", "False")
     )
 
+    AWS_ACCESS_KEY_ID: str = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY: str = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    AWS_DEFAULT_REGION: str = os.environ.get("AWS_DEFAULT_REGION", "")
+    S3_BUCKET_NAME: str = os.environ.get("S3_BUCKET_NAME", "")
+
 
 class Staging(Production):
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
