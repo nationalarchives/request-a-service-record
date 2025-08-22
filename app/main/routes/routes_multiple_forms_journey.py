@@ -8,7 +8,6 @@ from app.main.forms.service_branch import ServiceBranch
 from flask import redirect, render_template, session, url_for
 
 @bp.route("/start/", methods=["GET"])
-# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 def start():
     content = load_content()
     form = StartNow()
@@ -18,7 +17,6 @@ def start():
     )
 
 @bp.route("/start/", methods=["POST"])
-# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 @with_state_machine
 def start_post(state_machine):
     content = load_content()
@@ -33,7 +31,6 @@ def start_post(state_machine):
     )
 
 @bp.route("/is-service-person-alive/", methods=["GET"])
-# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 def is_service_person_alive():
     content = load_content()
     form = IsServicePersonAlive()
@@ -43,7 +40,6 @@ def is_service_person_alive():
     )
 
 @bp.route("/is-service-person-alive/", methods=["POST"])
-# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 @with_state_machine
 def is_service_person_alive_post(state_machine):
     content = load_content()
@@ -61,7 +57,6 @@ def is_service_person_alive_post(state_machine):
     )
 
 @bp.route("/must-submit-subject-access/", methods=["GET"])
-# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 def must_submit_subject_access_request():
     content = load_content()
     return render_template(
@@ -69,7 +64,6 @@ def must_submit_subject_access_request():
     )
 
 @bp.route("/service-branch/", methods=["GET"])
-# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 def service_branch_form():
     content = load_content()
     form = ServiceBranch()
