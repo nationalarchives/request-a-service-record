@@ -117,7 +117,7 @@ def payment_incomplete():
 @bp.route("/confirm-payment-received/")
 def confirm_payment_received():
     content = load_content()
-    return render_template("main/confirm-payment-received.html", content=content)
+    return render_template("main/payment/confirm-payment-received.html", content=content)
 
 
 @bp.route("/gov-uk-pay-webhook/", methods=["POST"])
