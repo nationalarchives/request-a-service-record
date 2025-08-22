@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.lib.aws import upload_file_to_s3
+from app.lib.aws import upload_proof_of_death
 from app.lib.cache import cache, cache_key_prefix
 from app.lib.content import load_content
 from app.lib.db_handler import add_service_record_request
@@ -24,7 +24,7 @@ def all_fields_in_one_form():
         for field_name, field in form._fields.items():
             if field_name not in ["csrf_token", "submit"]:
                 if field_name == "evidence_of_death":
-                    file = upload_file_to_s3(file=field.data, bucket_name=current_app.config["S3_BUCKET_NAME"])
+                    file = upload_proof_of_death(file=field.data)
                     session["form_data"][field_name] = file if file else None
                 else:
                     session["form_data"][field_name] = field.data
