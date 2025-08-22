@@ -70,7 +70,7 @@ class Production(Features):
     AWS_SECRET_ACCESS_KEY: str = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
     AWS_DEFAULT_REGION: str = os.environ.get("AWS_DEFAULT_REGION", "")
     AWS_SESSION_TOKEN: str = os.environ.get("AWS_SESSION_TOKEN", "")
-    S3_BUCKET_NAME: str = os.environ.get("S3_BUCKET_NAME", "")
+    PROOF_OF_DEATH_BUCKET_NAME: str = os.environ.get("PROOF_OF_DEATH_BUCKET_NAME", "")
 
 
 class Staging(Production):
