@@ -11,7 +11,7 @@ def file_upload_to_proof_of_death_storage(file) -> str | None:
             aws_access_key_id=current_app.config["AWS_ACCESS_KEY_ID"],
             aws_secret_access_key=current_app.config["AWS_SECRET_ACCESS_KEY"],
             aws_session_token=current_app.config.get("AWS_SESSION_TOKEN"),
-            region_name=current_app.config.get("AWS_REGION", "eu-west-2"),
+            region_name=current_app.config.get("AWS_DEFAULT_REGION", "eu-west-2"),
         )
         
         bucket_name = current_app.config["S3_BUCKET_NAME"]
