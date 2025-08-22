@@ -8,6 +8,7 @@ from flask import redirect, render_template, session, url_for
 
 @cache.cached(key_prefix=cache_key_prefix)
 @bp.route("/start/", methods=["GET"])
+# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 def start():
     content = load_content()
     form = StartNow()
@@ -17,7 +18,7 @@ def start():
     )
 
 @bp.route("/start/", methods=["POST"])
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 @with_state_machine
 def start_post(state_machine):
     content = load_content()
@@ -33,6 +34,8 @@ def start_post(state_machine):
 
 @bp.route("/is-service-person-alive/", methods=["GET", "POST"])
 @cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
+# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
 @with_state_machine
 def is_service_person_alive(state_machine):
     content = load_content()
@@ -45,3 +48,6 @@ def is_service_person_alive(state_machine):
     return render_template(
         "main/multi-page-journey/is-service-person-alive.html", form=form, content=content
     )
+
+# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
+# @cache.cached(key_prefix=cache_key_prefix) #TODO: Speak to AJ - this isn't playing well with Playwright
