@@ -3,8 +3,9 @@ import uuid
 import os 
 
 from flask import current_app
+from werkzeug.datastructures.file_storage import FileStorage
 
-def file_upload_to_proof_of_death_storage(file) -> str | None:
+def file_upload_to_proof_of_death_storage(file: FileStorage) -> str | None:
     if file:
         s3 = boto3.client(
             "s3",

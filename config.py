@@ -74,21 +74,21 @@ class Production(Features):
 
 
 class Staging(Production):
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
+    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
 
 class Develop(Production):
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
+    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
 class Test(Production):
-    SECRET_KEY = "abc123"
-    DEBUG = True
-    TESTING = True
-    EXPLAIN_TEMPLATE_LOADING = True
+    SECRET_KEY: str = "abc123"
+    DEBUG: bool = True
+    TESTING: bool = True
+    EXPLAIN_TEMPLATE_LOADING: bool = True
 
-    CACHE_TYPE = "SimpleCache"
-    CACHE_DEFAULT_TIMEOUT = 1
+    CACHE_TYPE: str = "SimpleCache"
+    CACHE_DEFAULT_TIMEOUT: int = 1
 
-    FORCE_HTTPS = False
-    PREFERRED_URL_SCHEME = "http"
+    FORCE_HTTPS: bool = False
+    PREFERRED_URL_SCHEME: str = "http"
