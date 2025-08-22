@@ -1,6 +1,7 @@
 import boto3
 import uuid
-import os 
+import os
+import io
 
 from flask import current_app
 from werkzeug.datastructures.file_storage import FileStorage
@@ -13,15 +14,26 @@ def upload_proof_of_death(file: FileStorage) -> str | None:
     file_extension = os.path.splitext(file.filename)[1]
 
     filename = str(uuid.uuid4()) + file_extension
-    
+
     return upload_file_to_s3(file=file, bucket_name=current_app.config["PROOF_OF_DEATH_BUCKET_NAME"], filename_override=filename)
 
 
 def upload_file_to_s3(file: FileStorage, bucket_name: str, filename_override: str | None = None) -> str | None:
     """
     Generic function that takes a file and uploads it to a given S3 bucket.
+
+    We read the file into a variable so that we can check if it's empty, and also to allow for retries
+    otherwise the file gets closed and we can't re-read it.
+
+    Returns file name for use in other parts of application.
     """
     if file:
+        data = file.read()
+
+        if not data:
+            current_app.logger.error("File is empty, cannot upload to S3.")
+            return None
+        
         s3 = boto3.client(
             "s3",
             aws_access_key_id=current_app.config["AWS_ACCESS_KEY_ID"],
@@ -32,10 +44,16 @@ def upload_file_to_s3(file: FileStorage, bucket_name: str, filename_override: st
 
         filename = filename_override if filename_override else file.filename
 
-        try:
-            s3.upload_fileobj(file, bucket_name, filename)
-        except Exception as e:
-            current_app.logger.error(f"Error uploading file to S3: {e}")
-            return None
+        for attempt in range(1, current_app.config["MAX_UPLOAD_ATTEMPTS"] + 1):
+            stream = io.BytesIO(data)
+            try:
+                s3.upload_fileobj(stream, bucket_name, filename)
+                return filename
+            except Exception as e:
+                current_app.logger.error(f"Error uploading file to S3 (attempt {attempt}): {e}")
+                if attempt == current_app.config["MAX_UPLOAD_ATTEMPTS"]:
+                    current_app.logger.error(f"Max upload attempts reached for file {filename}. Upload failed.")
+                    return None
 
         return filename
+    return None
