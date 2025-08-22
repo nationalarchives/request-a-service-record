@@ -28,7 +28,8 @@ class RoutingStateMachine(StateMachine):
     """
     initial = State(initial=True)  # The initial state of our machine
     service_person_alive_form = State(enter="entering_service_person_alive_form", final=True)
-
+    subject_access_request_statement = State(enter="entering_subject_access_request_statement", final=True)
+    service_branch_form = State(enter="entering_service_branch_form", final=True)
     """
     These are our Events. We call these in route methods to trigger transitions between States.
 
@@ -37,9 +38,20 @@ class RoutingStateMachine(StateMachine):
     from the "start" State to the "service_person_alive_form" State.
     """
     continue_to_service_person_alive_form = initial.to(service_person_alive_form)
+    continue_to_subject_access_request_statement = initial.to(subject_access_request_statement)
+    continue_to_select_service_branch = initial.to(service_branch_form)
 
     def entering_service_person_alive_form(self, event, state):
         self.route_for_current_state = "main.is_service_person_alive"
+
+    def entering_subject_access_request_statement(self, event, state):
+        self.route_for_current_state = "main.must_submit_subject_access_request"
+
+    def entering_service_branch_form(self, event, state):
+        self.route_for_current_state = "main.service_branch_form"
+
+    def on_enter_state(self, event, state):
+        """This method is called when entering any state."""
         print(f"State machine: Entering '{state.id}' state in response to '{event}' event. The next route is set to: '{self.route_for_current_state}'")
 
     def on_exit_state(self, event, state):
