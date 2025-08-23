@@ -10,7 +10,6 @@ from flask import redirect, render_template, session, url_for
 @bp.route("/start/", methods=["GET", "POST"])
 @with_state_machine
 def start(state_machine):
-    content = load_content()
     form = StartNow()
 
     if form.validate_on_submit():
@@ -18,13 +17,12 @@ def start(state_machine):
         return redirect(url_for(state_machine.route_for_current_state))
 
     return render_template(
-        "main/multi-page-journey/start.html", form=form, content=content
+        "main/multi-page-journey/start.html", form=form, content=load_content()
     )
 
 @bp.route("/is-service-person-alive/", methods=["GET", "POST"])
 @with_state_machine
 def is_service_person_alive(state_machine):
-    content = load_content()
     form = IsServicePersonAlive()
 
     if form.validate_on_submit():
@@ -32,22 +30,20 @@ def is_service_person_alive(state_machine):
         return redirect(url_for(state_machine.route_for_current_state))
 
     return render_template(
-        "main/multi-page-journey/is-service-person-alive.html", form=form, content=content
+        "main/multi-page-journey/is-service-person-alive.html", form=form, content=load_content()
     )
 
 
 @bp.route("/must-submit-subject-access/", methods=["GET"])
 def must_submit_subject_access_request():
-    content = load_content()
     return render_template(
-        "main/multi-page-journey/must-submit-subject-access-request.html", content=content
+        "main/multi-page-journey/must-submit-subject-access-request.html", content=load_content()
     )
 
 
 @bp.route("/service-branch/", methods=["GET"])
 def service_branch_form():
-    content = load_content()
     form = ServiceBranch()
     return render_template(
-        "main/multi-page-journey/service-branch.html", form=form, content=content
+        "main/multi-page-journey/service-branch.html", form=form, content=load_content()
     )
