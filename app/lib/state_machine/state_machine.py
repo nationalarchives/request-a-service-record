@@ -27,7 +27,7 @@ class RoutingStateMachine(StateMachine):
     would be an Event that triggers a transition to that State. 
     """
     initial = State(initial=True)  # The initial state of our machine
-    service_person_alive_form = State(enter="entering_service_person_alive_form")
+    service_person_alive_form = State(enter="entering_service_person_alive_form", final=True)
     subject_access_request_statement = State(enter="entering_subject_access_request_statement", final=True)
     service_branch_form = State(enter="entering_service_branch_form", final=True)
     """
