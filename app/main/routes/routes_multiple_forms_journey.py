@@ -29,10 +29,7 @@ def is_service_person_alive(state_machine):
     form = IsServicePersonAlive()
 
     if form.validate_on_submit():
-        if (form.is_service_person_alive.data == "yes"):
-            state_machine.continue_to_subject_access_request_statement()
-        else:
-            state_machine.continue_to_select_service_branch()
+        state_machine.continue_from_service_person_alive_form(form)
         return redirect(url_for(state_machine.route_for_current_state))
 
     return render_template(
